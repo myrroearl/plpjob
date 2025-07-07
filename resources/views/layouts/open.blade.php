@@ -262,30 +262,30 @@
             <nav class="mobile-nav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="/">
                             <i class="fas fa-home me-2"></i>HOME
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">
+                        <a class="nav-link" href="{{ route('aboutpage') }}">
                             <i class="fas fa-info-circle me-2"></i>ABOUT US
                         </a>
                     </li>
                     <li class="nav-item position-relative">
                         <div class="d-flex justify-content-between">
-                            <a class="nav-link" href="#newsevents">
+                            <a class="nav-link" href="/">
                                 <i class="fas fa-newspaper me-2"></i>NEWS & EVENTS
                             </a>
                             <i class="fa-solid fa-caret-down text-primary d-flex justify-content-center align-items-center cursor-pointer p-2 dropdown-icon" onclick="toggleDropdown()"></i>
                         </div>
                         <ul class="dropdown-list-responsive" id="dropdown-list-responsive">
-                            <li class="text-black"><a href="news.html">News</a></li>
-                            <li class="text-black"><a href="events.html">Events</a></li>
+                            <li class="text-black"><a href="{{ route('newspage') }}">News</a></li>
+                            <li class="text-black"><a href="{{ route('eventspage') }}">Events</a></li>
                             <li class="text-black"><a href="">Announcements</a></li>
                         </ul>
                     </li>
                     <li class="nav-item" id="nav-item">
-                        <a class="nav-link" href="colleges.html">
+                        <a class="nav-link" href="{{ route('academics') }}">
                             <i class="fas fa-graduation-cap me-2"></i>ACADEMICS
                         </a>
                     </li>
@@ -295,22 +295,22 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="campus_life.html">
+                        <a class="nav-link" href="{{ route('campus_life') }}">
                             <i class="fas fa-university me-2"></i>CAMPUS LIFE
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('researchpage') }}">
                             <i class="fas fa-flask me-2"></i>RESEARCH & EXTENSION
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('home') }}">
                             <i class="fas fa-users me-2"></i>ALUMNI
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('contactpage') }}">
                             <i class="fas fa-phone me-2"></i>CONTACT US
                         </a>
                     </li>
