@@ -388,10 +388,10 @@ try:
         plt.savefig(f"{figures_path}/{employment_rate_comparison_id}.png")
 
         conn = mysql.connector.connect(
-            host='127.0.0.1',
+            host='mainline.proxy.rlwy.net',
             user='root',
-            password='',
-            database='plpalumnijobportal_db'
+            password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
+            database='railway'
         )
         cursor = conn.cursor()
         
@@ -430,10 +430,10 @@ except Exception as e:
 # Connect to the MySQL database
 try:
     conn = mysql.connector.connect(
-        host='127.0.0.1',
+        host='mainline.proxy.rlwy.net',
         user='root',
-        password='',
-        database='plpalumnijobportal_db'
+        password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
+        database='railway'
     )
     cursor = conn.cursor()
 
