@@ -1,0 +1,2419 @@
+
+Detailed Predictions for Each Student:
+=====================================
+
+Student Number: 2200606
+Profile: Male, Age 21, BSIT
+CGPA: 4.43
+Predicted Employment Rate: 87.33%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0175
+Profile: Male, Age 20, BSA
+CGPA: 3.96
+Predicted Employment Rate: 87.01%
+Employability Probability: 69.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0033
+Profile: Male, Age 22, BSA
+CGPA: 3.98
+Predicted Employment Rate: 87.01%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0127
+Profile: Female, Age 20, BSBA
+CGPA: 3.97
+Predicted Employment Rate: 87.01%
+Employability Probability: 51.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0188
+Profile: Female, Age 20, BSE
+CGPA: 3.99
+Predicted Employment Rate: 87.0%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0078
+Profile: Female, Age 23, BSP
+CGPA: 3.99
+Predicted Employment Rate: 86.98%
+Employability Probability: 52.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0179
+Profile: Male, Age 23, BSE
+CGPA: 3.99
+Predicted Employment Rate: 86.98%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0164
+Profile: Male, Age 25, BSCS
+CGPA: 3.99
+Predicted Employment Rate: 86.96%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0156
+Profile: Female, Age 25, BSN
+CGPA: 3.98
+Predicted Employment Rate: 86.95%
+Employability Probability: 51.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0259
+Profile: Male, Age 24, BSN
+CGPA: 3.95
+Predicted Employment Rate: 86.95%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0242
+Profile: Female, Age 21, BSBA
+CGPA: 3.86
+Predicted Employment Rate: 86.93%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0058
+Profile: Male, Age 21, BSP
+CGPA: 3.85
+Predicted Employment Rate: 86.92%
+Employability Probability: 69.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0110
+Profile: Female, Age 23, BSN
+CGPA: 3.89
+Predicted Employment Rate: 86.91%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0054
+Profile: Female, Age 20, BSHM
+CGPA: 3.83
+Predicted Employment Rate: 86.9%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0256
+Profile: Female, Age 25, BSP
+CGPA: 3.9
+Predicted Employment Rate: 86.89%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0123
+Profile: Male, Age 23, BSE
+CGPA: 3.85
+Predicted Employment Rate: 86.88%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0074
+Profile: Female, Age 25, BSSE
+CGPA: 3.91
+Predicted Employment Rate: 86.88%
+Employability Probability: 52.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0189
+Profile: Female, Age 21, BSSE
+CGPA: 3.79
+Predicted Employment Rate: 86.88%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0104
+Profile: Female, Age 24, BSA
+CGPA: 3.83
+Predicted Employment Rate: 86.87%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0209
+Profile: Female, Age 23, BSE
+CGPA: 3.83
+Predicted Employment Rate: 86.86%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0226
+Profile: Female, Age 23, BSE
+CGPA: 3.81
+Predicted Employment Rate: 86.84%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0194
+Profile: Male, Age 26, BSE
+CGPA: 3.91
+Predicted Employment Rate: 86.84%
+Employability Probability: 45.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0128
+Profile: Male, Age 25, BSP
+CGPA: 3.85
+Predicted Employment Rate: 86.84%
+Employability Probability: 46.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0136
+Profile: Female, Age 24, BSCS
+CGPA: 3.79
+Predicted Employment Rate: 86.82%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0109
+Profile: Female, Age 24, BSN
+CGPA: 3.74
+Predicted Employment Rate: 86.8%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0300
+Profile: Male, Age 22, BSCS
+CGPA: 3.67
+Predicted Employment Rate: 86.79%
+Employability Probability: 71.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0153
+Profile: Female, Age 24, BSN
+CGPA: 3.68
+Predicted Employment Rate: 86.77%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0181
+Profile: Male, Age 23, BSHM
+CGPA: 3.7
+Predicted Employment Rate: 86.77%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0268
+Profile: Male, Age 24, BSHM
+CGPA: 3.64
+Predicted Employment Rate: 86.75%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0108
+Profile: Female, Age 23, BSP
+CGPA: 3.65
+Predicted Employment Rate: 86.74%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0196
+Profile: Female, Age 20, BSSE
+CGPA: 3.59
+Predicted Employment Rate: 86.74%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0278
+Profile: Male, Age 25, BSIT
+CGPA: 3.75
+Predicted Employment Rate: 86.74%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0166
+Profile: Male, Age 22, BSIT
+CGPA: 3.54
+Predicted Employment Rate: 86.72%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0264
+Profile: Male, Age 24, BSHM
+CGPA: 3.6
+Predicted Employment Rate: 86.72%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0195
+Profile: Male, Age 26, BSE
+CGPA: 3.74
+Predicted Employment Rate: 86.71%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0177
+Profile: Male, Age 24, BSP
+CGPA: 3.57
+Predicted Employment Rate: 86.7%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0276
+Profile: Female, Age 25, BSHM
+CGPA: 3.66
+Predicted Employment Rate: 86.7%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0173
+Profile: Male, Age 23, BSBA
+CGPA: 3.54
+Predicted Employment Rate: 86.69%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0113
+Profile: Male, Age 20, BSE
+CGPA: 3.48
+Predicted Employment Rate: 86.68%
+Employability Probability: 74.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0093
+Profile: Male, Age 25, BSA
+CGPA: 3.64
+Predicted Employment Rate: 86.68%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0220
+Profile: Female, Age 21, BSBA
+CGPA: 3.49
+Predicted Employment Rate: 86.68%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0279
+Profile: Male, Age 21, BSSE
+CGPA: 3.48
+Predicted Employment Rate: 86.67%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0103
+Profile: Male, Age 22, BSA
+CGPA: 3.48
+Predicted Employment Rate: 86.67%
+Employability Probability: 73.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0159
+Profile: Male, Age 25, BSP
+CGPA: 3.59
+Predicted Employment Rate: 86.66%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0293
+Profile: Male, Age 26, BSN
+CGPA: 3.67
+Predicted Employment Rate: 86.66%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0120
+Profile: Female, Age 26, BSP
+CGPA: 3.64
+Predicted Employment Rate: 86.65%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0267
+Profile: Female, Age 22, BSBA
+CGPA: 3.46
+Predicted Employment Rate: 86.64%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0036
+Profile: Male, Age 26, BSIT
+CGPA: 3.63
+Predicted Employment Rate: 86.64%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0089
+Profile: Male, Age 22, BSBA
+CGPA: 3.45
+Predicted Employment Rate: 86.63%
+Employability Probability: 78.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0090
+Profile: Female, Age 23, BSN
+CGPA: 3.45
+Predicted Employment Rate: 86.62%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0244
+Profile: Female, Age 24, BSHM
+CGPA: 3.46
+Predicted Employment Rate: 86.62%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0105
+Profile: Female, Age 21, BSHM
+CGPA: 3.43
+Predicted Employment Rate: 86.61%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0228
+Profile: Female, Age 27, BSP
+CGPA: 3.75
+Predicted Employment Rate: 86.61%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0138
+Profile: Male, Age 26, BSHM
+CGPA: 3.58
+Predicted Employment Rate: 86.61%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0116
+Profile: Female, Age 27, BSSE
+CGPA: 3.73
+Predicted Employment Rate: 86.6%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0073
+Profile: Male, Age 25, BSN
+CGPA: 3.47
+Predicted Employment Rate: 86.6%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0125
+Profile: Male, Age 26, BSIT
+CGPA: 3.48
+Predicted Employment Rate: 86.58%
+Employability Probability: 54.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0022
+Profile: Female, Age 23, BSHM
+CGPA: 3.4
+Predicted Employment Rate: 86.57%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0211
+Profile: Female, Age 23, BSE
+CGPA: 3.4
+Predicted Employment Rate: 86.57%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0216
+Profile: Male, Age 24, BSN
+CGPA: 3.4
+Predicted Employment Rate: 86.57%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0133
+Profile: Female, Age 27, BSSE
+CGPA: 3.68
+Predicted Employment Rate: 86.57%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0247
+Profile: Male, Age 25, BSSE
+CGPA: 3.41
+Predicted Employment Rate: 86.53%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0101
+Profile: Female, Age 27, BSN
+CGPA: 3.64
+Predicted Employment Rate: 86.53%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0098
+Profile: Female, Age 25, BSBA
+CGPA: 3.41
+Predicted Employment Rate: 86.53%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0290
+Profile: Male, Age 27, BSIT
+CGPA: 3.52
+Predicted Employment Rate: 86.52%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0124
+Profile: Female, Age 22, BSP
+CGPA: 3.34
+Predicted Employment Rate: 86.52%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0212
+Profile: Female, Age 24, BSSE
+CGPA: 3.33
+Predicted Employment Rate: 86.5%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0206
+Profile: Male, Age 27, BSE
+CGPA: 3.55
+Predicted Employment Rate: 86.5%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0044
+Profile: Male, Age 27, BSHM
+CGPA: 3.61
+Predicted Employment Rate: 86.5%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0065
+Profile: Male, Age 23, BSIT
+CGPA: 3.32
+Predicted Employment Rate: 86.48%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0243
+Profile: Female, Age 25, BSIT
+CGPA: 3.36
+Predicted Employment Rate: 86.48%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0150
+Profile: Female, Age 21, BSN
+CGPA: 3.31
+Predicted Employment Rate: 86.47%
+Employability Probability: 71.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0085
+Profile: Female, Age 27, BSIT
+CGPA: 3.47
+Predicted Employment Rate: 86.47%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0107
+Profile: Male, Age 22, BSN
+CGPA: 3.3
+Predicted Employment Rate: 86.45%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0143
+Profile: Male, Age 26, BSA
+CGPA: 3.32
+Predicted Employment Rate: 86.42%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0106
+Profile: Female, Age 24, BSSE
+CGPA: 3.29
+Predicted Employment Rate: 86.42%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0094
+Profile: Female, Age 22, BSIT
+CGPA: 3.26
+Predicted Employment Rate: 86.41%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0252
+Profile: Male, Age 27, BSIT
+CGPA: 3.41
+Predicted Employment Rate: 86.41%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0060
+Profile: Male, Age 23, BSCS
+CGPA: 3.26
+Predicted Employment Rate: 86.4%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0200
+Profile: Female, Age 25, BSCS
+CGPA: 3.3
+Predicted Employment Rate: 86.39%
+Employability Probability: 75.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0142
+Profile: Female, Age 24, BSA
+CGPA: 3.26
+Predicted Employment Rate: 86.39%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0016
+Profile: Male, Age 26, BSCS
+CGPA: 3.28
+Predicted Employment Rate: 86.39%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0112
+Profile: Female, Age 26, BSN
+CGPA: 3.25
+Predicted Employment Rate: 86.36%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0198
+Profile: Male, Age 27, BSSE
+CGPA: 3.35
+Predicted Employment Rate: 86.35%
+Employability Probability: 54.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0162
+Profile: Male, Age 28, BSSE
+CGPA: 2.85
+Predicted Employment Rate: 86.33%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0161
+Profile: Female, Age 28, BSE
+CGPA: 3.95
+Predicted Employment Rate: 86.33%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0165
+Profile: Male, Age 28, BSHM
+CGPA: 3.81
+Predicted Employment Rate: 86.33%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0158
+Profile: Female, Age 30, BSA
+CGPA: 3.69
+Predicted Employment Rate: 86.33%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0147
+Profile: Male, Age 28, BSA
+CGPA: 3.08
+Predicted Employment Rate: 86.33%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0167
+Profile: Male, Age 30, BSA
+CGPA: 2.15
+Predicted Employment Rate: 86.33%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0140
+Profile: Female, Age 30, BSCS
+CGPA: 3.28
+Predicted Employment Rate: 86.33%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0137
+Profile: Female, Age 30, BSSE
+CGPA: 2.6
+Predicted Employment Rate: 86.33%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0001
+Profile: Female, Age 28, BSN
+CGPA: 2.45
+Predicted Employment Rate: 86.33%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0171
+Profile: Female, Age 30, BSBA
+CGPA: 2.29
+Predicted Employment Rate: 86.33%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0263
+Profile: Male, Age 29, BSBA
+CGPA: 3.91
+Predicted Employment Rate: 86.33%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0245
+Profile: Male, Age 30, BSSE
+CGPA: 2.38
+Predicted Employment Rate: 86.33%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0248
+Profile: Female, Age 28, BSP
+CGPA: 2.74
+Predicted Employment Rate: 86.33%
+Employability Probability: 47.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0250
+Profile: Female, Age 28, BSSE
+CGPA: 3.94
+Predicted Employment Rate: 86.33%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0251
+Profile: Female, Age 30, BSA
+CGPA: 2.23
+Predicted Employment Rate: 86.33%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0260
+Profile: Male, Age 29, BSHM
+CGPA: 3.85
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0261
+Profile: Female, Age 28, BSBA
+CGPA: 2.72
+Predicted Employment Rate: 86.33%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0262
+Profile: Female, Age 28, BSBA
+CGPA: 2.39
+Predicted Employment Rate: 86.33%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0269
+Profile: Female, Age 29, BSP
+CGPA: 3.93
+Predicted Employment Rate: 86.33%
+Employability Probability: 45.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0233
+Profile: Male, Age 28, BSE
+CGPA: 2.03
+Predicted Employment Rate: 86.33%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0271
+Profile: Male, Age 28, BSIT
+CGPA: 2.46
+Predicted Employment Rate: 86.33%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0275
+Profile: Male, Age 30, BSBA
+CGPA: 2.35
+Predicted Employment Rate: 86.33%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0277
+Profile: Female, Age 30, BSA
+CGPA: 2.97
+Predicted Employment Rate: 86.33%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0286
+Profile: Male, Age 30, BSP
+CGPA: 3.22
+Predicted Employment Rate: 86.33%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0289
+Profile: Female, Age 28, BSN
+CGPA: 3.58
+Predicted Employment Rate: 86.33%
+Employability Probability: 52.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0295
+Profile: Male, Age 28, BSN
+CGPA: 2.01
+Predicted Employment Rate: 86.33%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0297
+Profile: Female, Age 29, BSA
+CGPA: 3.3
+Predicted Employment Rate: 86.33%
+Employability Probability: 48.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0240
+Profile: Male, Age 30, BSE
+CGPA: 2.18
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0232
+Profile: Female, Age 29, BSIT
+CGPA: 2.48
+Predicted Employment Rate: 86.33%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0176
+Profile: Female, Age 21, BSBA
+CGPA: 3.22
+Predicted Employment Rate: 86.33%
+Employability Probability: 78.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0201
+Profile: Female, Age 28, BSIT
+CGPA: 3.92
+Predicted Employment Rate: 86.33%
+Employability Probability: 46.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0178
+Profile: Male, Age 30, BSIT
+CGPA: 3.37
+Predicted Employment Rate: 86.33%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0182
+Profile: Male, Age 29, BSP
+CGPA: 3.8
+Predicted Employment Rate: 86.33%
+Employability Probability: 72.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0183
+Profile: Female, Age 28, BSE
+CGPA: 3.43
+Predicted Employment Rate: 86.33%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0184
+Profile: Male, Age 29, BSHM
+CGPA: 3.46
+Predicted Employment Rate: 86.33%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0190
+Profile: Male, Age 29, BSA
+CGPA: 3.35
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0193
+Profile: Male, Age 29, BSCS
+CGPA: 3.67
+Predicted Employment Rate: 86.33%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0197
+Profile: Female, Age 30, BSE
+CGPA: 3.02
+Predicted Employment Rate: 86.33%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0208
+Profile: Male, Age 30, BSSE
+CGPA: 3.36
+Predicted Employment Rate: 86.33%
+Employability Probability: 69.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0231
+Profile: Female, Age 28, BSSE
+CGPA: 3.35
+Predicted Employment Rate: 86.33%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0214
+Profile: Male, Age 29, BSN
+CGPA: 3.76
+Predicted Employment Rate: 86.33%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0221
+Profile: Male, Age 29, BSE
+CGPA: 2.83
+Predicted Employment Rate: 86.33%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0222
+Profile: Male, Age 30, BSP
+CGPA: 2.82
+Predicted Employment Rate: 86.33%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0223
+Profile: Female, Age 30, BSN
+CGPA: 3.58
+Predicted Employment Rate: 86.33%
+Employability Probability: 72.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0224
+Profile: Male, Age 28, BSSE
+CGPA: 3.34
+Predicted Employment Rate: 86.33%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0229
+Profile: Female, Age 29, BSIT
+CGPA: 2.5
+Predicted Employment Rate: 86.33%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0230
+Profile: Female, Age 30, BSE
+CGPA: 2.85
+Predicted Employment Rate: 86.33%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0134
+Profile: Male, Age 29, BSHM
+CGPA: 2.6
+Predicted Employment Rate: 86.33%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: 2200509
+Profile: Female, Age 21, BSBA
+CGPA: 5.0
+Predicted Employment Rate: 86.33%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0069
+Profile: Female, Age 29, BSP
+CGPA: 3.33
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0091
+Profile: Male, Age 29, BSP
+CGPA: 3.86
+Predicted Employment Rate: 86.33%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0009
+Profile: Female, Age 29, BSP
+CGPA: 3.54
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0115
+Profile: Female, Age 30, BSSE
+CGPA: 3.48
+Predicted Employment Rate: 86.33%
+Employability Probability: 72.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0019
+Profile: Female, Age 30, BSA
+CGPA: 2.84
+Predicted Employment Rate: 86.33%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0051
+Profile: Female, Age 30, BSBA
+CGPA: 3.61
+Predicted Employment Rate: 86.33%
+Employability Probability: 54.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0053
+Profile: Female, Age 28, BSP
+CGPA: 3.36
+Predicted Employment Rate: 86.33%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0056
+Profile: Male, Age 29, BSA
+CGPA: 3.51
+Predicted Employment Rate: 86.33%
+Employability Probability: 46.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0102
+Profile: Male, Age 29, BSSE
+CGPA: 2.06
+Predicted Employment Rate: 86.33%
+Employability Probability: 48.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0100
+Profile: Male, Age 28, BSP
+CGPA: 2.4
+Predicted Employment Rate: 86.33%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0010
+Profile: Female, Age 28, BSP
+CGPA: 3.51
+Predicted Employment Rate: 86.33%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0061
+Profile: Male, Age 29, BSSE
+CGPA: 2.07
+Predicted Employment Rate: 86.33%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0075
+Profile: Male, Age 30, BSN
+CGPA: 3.15
+Predicted Employment Rate: 86.33%
+Employability Probability: 74.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0015
+Profile: Male, Age 29, BSE
+CGPA: 3.93
+Predicted Employment Rate: 86.33%
+Employability Probability: 46.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0081
+Profile: Female, Age 30, BSP
+CGPA: 2.54
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0013
+Profile: Female, Age 30, BSCS
+CGPA: 3.97
+Predicted Employment Rate: 86.33%
+Employability Probability: 52.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0092
+Profile: Female, Age 29, BSN
+CGPA: 3.41
+Predicted Employment Rate: 86.33%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0046
+Profile: Male, Age 29, BSCS
+CGPA: 3.28
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0045
+Profile: Male, Age 29, BSA
+CGPA: 2.14
+Predicted Employment Rate: 86.33%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0043
+Profile: Male, Age 28, BSA
+CGPA: 3.07
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0031
+Profile: Female, Age 30, BSA
+CGPA: 3.07
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0131
+Profile: Female, Age 28, BSA
+CGPA: 2.66
+Predicted Employment Rate: 86.33%
+Employability Probability: 52.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0130
+Profile: Female, Age 29, BSP
+CGPA: 2.53
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0129
+Profile: Male, Age 28, BSA
+CGPA: 3.04
+Predicted Employment Rate: 86.33%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0003
+Profile: Male, Age 30, BSN
+CGPA: 2.14
+Predicted Employment Rate: 86.33%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0028
+Profile: Female, Age 28, BSE
+CGPA: 2.21
+Predicted Employment Rate: 86.33%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0029
+Profile: Female, Age 30, BSHM
+CGPA: 2.68
+Predicted Employment Rate: 86.33%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0020
+Profile: Male, Age 29, BSN
+CGPA: 3.8
+Predicted Employment Rate: 86.33%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0030
+Profile: Female, Age 30, BSBA
+CGPA: 3.55
+Predicted Employment Rate: 86.33%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0005
+Profile: Female, Age 28, BSA
+CGPA: 2.19
+Predicted Employment Rate: 86.33%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0026
+Profile: Female, Age 29, BSIT
+CGPA: 2.82
+Predicted Employment Rate: 86.33%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0035
+Profile: Female, Age 30, BSIT
+CGPA: 2.39
+Predicted Employment Rate: 86.33%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0038
+Profile: Male, Age 29, BSBA
+CGPA: 3.31
+Predicted Employment Rate: 86.33%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0021
+Profile: Male, Age 28, BSA
+CGPA: 2.28
+Predicted Employment Rate: 86.33%
+Employability Probability: 42.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0118
+Profile: Female, Age 28, BSA
+CGPA: 3.62
+Predicted Employment Rate: 86.33%
+Employability Probability: 54.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0084
+Profile: Female, Age 29, BSN
+CGPA: 3.76
+Predicted Employment Rate: 86.33%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0145
+Profile: Female, Age 25, BSHM
+CGPA: 3.24
+Predicted Employment Rate: 86.32%
+Employability Probability: 54.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0284
+Profile: Female, Age 26, BSHM
+CGPA: 3.22
+Predicted Employment Rate: 86.3%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0273
+Profile: Male, Age 26, BSIT
+CGPA: 3.2
+Predicted Employment Rate: 86.3%
+Employability Probability: 71.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0257
+Profile: Male, Age 27, BSBA
+CGPA: 3.25
+Predicted Employment Rate: 86.28%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0215
+Profile: Female, Age 24, BSE
+CGPA: 3.17
+Predicted Employment Rate: 86.27%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0274
+Profile: Male, Age 24, BSBA
+CGPA: 3.16
+Predicted Employment Rate: 86.26%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0160
+Profile: Male, Age 27, BSBA
+CGPA: 3.18
+Predicted Employment Rate: 86.23%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0235
+Profile: Female, Age 27, BSN
+CGPA: 3.15
+Predicted Employment Rate: 86.22%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0088
+Profile: Male, Age 25, BSCS
+CGPA: 3.13
+Predicted Employment Rate: 86.18%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0014
+Profile: Male, Age 21, BSP
+CGPA: 3.1
+Predicted Employment Rate: 86.17%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0217
+Profile: Female, Age 23, BSCS
+CGPA: 3.09
+Predicted Employment Rate: 86.16%
+Employability Probability: 76.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0067
+Profile: Male, Age 23, BSE
+CGPA: 3.09
+Predicted Employment Rate: 86.16%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0121
+Profile: Female, Age 26, BSHM
+CGPA: 3.1
+Predicted Employment Rate: 86.16%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0114
+Profile: Female, Age 20, BSCS
+CGPA: 3.09
+Predicted Employment Rate: 86.15%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0258
+Profile: Male, Age 24, BSA
+CGPA: 3.05
+Predicted Employment Rate: 86.13%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0041
+Profile: Female, Age 26, BSE
+CGPA: 3.07
+Predicted Employment Rate: 86.1%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0024
+Profile: Female, Age 24, BSP
+CGPA: 3.03
+Predicted Employment Rate: 86.1%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0225
+Profile: Female, Age 21, BSP
+CGPA: 3.02
+Predicted Employment Rate: 86.08%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0039
+Profile: Male, Age 21, BSIT
+CGPA: 3.02
+Predicted Employment Rate: 86.08%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0066
+Profile: Female, Age 27, BSP
+CGPA: 3.07
+Predicted Employment Rate: 86.07%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0076
+Profile: Female, Age 20, BSSE
+CGPA: 3.02
+Predicted Employment Rate: 86.06%
+Employability Probability: 69.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0210
+Profile: Male, Age 26, BSIT
+CGPA: 3.04
+Predicted Employment Rate: 86.06%
+Employability Probability: 72.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0299
+Profile: Male, Age 23, BSBA
+CGPA: 3.01
+Predicted Employment Rate: 86.05%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0048
+Profile: Male, Age 23, BSN
+CGPA: 3.0
+Predicted Employment Rate: 86.04%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0126
+Profile: Male, Age 22, BSIT
+CGPA: 3.0
+Predicted Employment Rate: 86.04%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0236
+Profile: Female, Age 21, BSCS
+CGPA: 2.99
+Predicted Employment Rate: 86.02%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0149
+Profile: Female, Age 20, BSHM
+CGPA: 3.0
+Predicted Employment Rate: 86.02%
+Employability Probability: 71.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0199
+Profile: Male, Age 26, BSE
+CGPA: 3.01
+Predicted Employment Rate: 86.02%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0023
+Profile: Female, Age 23, BSCS
+CGPA: 2.99
+Predicted Employment Rate: 86.02%
+Employability Probability: 67.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0168
+Profile: Male, Age 22, BSCS
+CGPA: 2.98
+Predicted Employment Rate: 86.0%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0072
+Profile: Female, Age 27, BSBA
+CGPA: 3.01
+Predicted Employment Rate: 85.99%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0027
+Profile: Female, Age 20, BSSE
+CGPA: 2.98
+Predicted Employment Rate: 85.98%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0086
+Profile: Male, Age 26, BSA
+CGPA: 2.94
+Predicted Employment Rate: 85.98%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0099
+Profile: Male, Age 26, BSA
+CGPA: 2.97
+Predicted Employment Rate: 85.98%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0082
+Profile: Male, Age 21, BSA
+CGPA: 2.96
+Predicted Employment Rate: 85.97%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0070
+Profile: Female, Age 27, BSHM
+CGPA: 2.94
+Predicted Employment Rate: 85.96%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0191
+Profile: Female, Age 27, BSP
+CGPA: 2.92
+Predicted Employment Rate: 85.96%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0234
+Profile: Female, Age 26, BSP
+CGPA: 2.87
+Predicted Employment Rate: 85.96%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0287
+Profile: Female, Age 20, BSN
+CGPA: 2.96
+Predicted Employment Rate: 85.96%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0017
+Profile: Female, Age 23, BSA
+CGPA: 2.9
+Predicted Employment Rate: 85.96%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0055
+Profile: Female, Age 27, BSHM
+CGPA: 2.95
+Predicted Employment Rate: 85.95%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0063
+Profile: Male, Age 26, BSHM
+CGPA: 2.86
+Predicted Employment Rate: 85.95%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0117
+Profile: Male, Age 24, BSBA
+CGPA: 2.88
+Predicted Employment Rate: 85.95%
+Employability Probability: 52.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0186
+Profile: Female, Age 26, BSIT
+CGPA: 2.79
+Predicted Employment Rate: 85.95%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0254
+Profile: Male, Age 20, BSP
+CGPA: 2.93
+Predicted Employment Rate: 85.94%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0080
+Profile: Male, Age 27, BSBA
+CGPA: 2.98
+Predicted Employment Rate: 85.94%
+Employability Probability: 48.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0227
+Profile: Female, Age 23, BSP
+CGPA: 2.88
+Predicted Employment Rate: 85.94%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0187
+Profile: Female, Age 25, BSCS
+CGPA: 2.86
+Predicted Employment Rate: 85.94%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0283
+Profile: Female, Age 27, BSP
+CGPA: 2.89
+Predicted Employment Rate: 85.93%
+Employability Probability: 54.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0050
+Profile: Female, Age 20, BSBA
+CGPA: 2.92
+Predicted Employment Rate: 85.93%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0042
+Profile: Male, Age 23, BSIT
+CGPA: 2.86
+Predicted Employment Rate: 85.93%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0291
+Profile: Female, Age 25, BSBA
+CGPA: 2.77
+Predicted Employment Rate: 85.93%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0012
+Profile: Female, Age 25, BSHM
+CGPA: 2.79
+Predicted Employment Rate: 85.92%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0151
+Profile: Female, Age 23, BSN
+CGPA: 2.84
+Predicted Employment Rate: 85.92%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0288
+Profile: Male, Age 20, BSE
+CGPA: 2.89
+Predicted Employment Rate: 85.92%
+Employability Probability: 69.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0057
+Profile: Male, Age 23, BSN
+CGPA: 2.82
+Predicted Employment Rate: 85.91%
+Employability Probability: 52.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0237
+Profile: Female, Age 23, BSIT
+CGPA: 2.81
+Predicted Employment Rate: 85.9%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0052
+Profile: Female, Age 23, BSHM
+CGPA: 2.8
+Predicted Employment Rate: 85.89%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0095
+Profile: Female, Age 24, BSA
+CGPA: 2.76
+Predicted Employment Rate: 85.89%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0172
+Profile: Female, Age 23, BSSE
+CGPA: 2.77
+Predicted Employment Rate: 85.89%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0174
+Profile: Female, Age 21, BSBA
+CGPA: 2.83
+Predicted Employment Rate: 85.88%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0205
+Profile: Male, Age 24, BSBA
+CGPA: 2.71
+Predicted Employment Rate: 85.86%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0002
+Profile: Male, Age 22, BSCS
+CGPA: 2.76
+Predicted Employment Rate: 85.85%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0272
+Profile: Female, Age 23, BSHM
+CGPA: 2.73
+Predicted Employment Rate: 85.85%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0280
+Profile: Male, Age 27, BSE
+CGPA: 2.63
+Predicted Employment Rate: 85.85%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0096
+Profile: Male, Age 21, BSP
+CGPA: 2.8
+Predicted Employment Rate: 85.84%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0270
+Profile: Female, Age 27, BSN
+CGPA: 2.7
+Predicted Employment Rate: 85.84%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0266
+Profile: Female, Age 25, BSN
+CGPA: 2.61
+Predicted Employment Rate: 85.83%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0064
+Profile: Male, Age 26, BSSE
+CGPA: 2.59
+Predicted Employment Rate: 85.83%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0218
+Profile: Female, Age 21, BSE
+CGPA: 2.79
+Predicted Employment Rate: 85.82%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0059
+Profile: Male, Age 24, BSHM
+CGPA: 2.63
+Predicted Employment Rate: 85.79%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0135
+Profile: Male, Age 24, BSP
+CGPA: 2.6
+Predicted Employment Rate: 85.78%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0122
+Profile: Male, Age 23, BSCS
+CGPA: 2.59
+Predicted Employment Rate: 85.77%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0204
+Profile: Female, Age 21, BSIT
+CGPA: 2.71
+Predicted Employment Rate: 85.77%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0007
+Profile: Female, Age 25, BSBA
+CGPA: 2.56
+Predicted Employment Rate: 85.76%
+Employability Probability: 46.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0032
+Profile: Female, Age 26, BSIT
+CGPA: 2.54
+Predicted Employment Rate: 85.75%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0207
+Profile: Male, Age 20, BSIT
+CGPA: 2.6
+Predicted Employment Rate: 85.71%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0077
+Profile: Female, Age 25, BSCS
+CGPA: 2.51
+Predicted Employment Rate: 85.7%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0018
+Profile: Male, Age 24, BSBA
+CGPA: 2.49
+Predicted Employment Rate: 85.69%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0255
+Profile: Male, Age 21, BSE
+CGPA: 2.56
+Predicted Employment Rate: 85.69%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0079
+Profile: Male, Age 27, BSHM
+CGPA: 2.49
+Predicted Employment Rate: 85.68%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0068
+Profile: Female, Age 24, BSCS
+CGPA: 2.48
+Predicted Employment Rate: 85.67%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0253
+Profile: Male, Age 26, BSIT
+CGPA: 2.46
+Predicted Employment Rate: 85.66%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0154
+Profile: Female, Age 22, BSHM
+CGPA: 2.5
+Predicted Employment Rate: 85.66%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0203
+Profile: Female, Age 23, BSBA
+CGPA: 2.48
+Predicted Employment Rate: 85.66%
+Employability Probability: 47.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0071
+Profile: Female, Age 24, BSN
+CGPA: 2.41
+Predicted Employment Rate: 85.65%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0238
+Profile: Male, Age 27, BSP
+CGPA: 2.45
+Predicted Employment Rate: 85.65%
+Employability Probability: 43.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0146
+Profile: Female, Age 26, BSP
+CGPA: 2.44
+Predicted Employment Rate: 85.64%
+Employability Probability: 60.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0132
+Profile: Male, Age 27, BSCS
+CGPA: 2.27
+Predicted Employment Rate: 85.63%
+Employability Probability: 48.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0213
+Profile: Female, Age 22, BSHM
+CGPA: 2.48
+Predicted Employment Rate: 85.63%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0119
+Profile: Female, Age 23, BSA
+CGPA: 2.41
+Predicted Employment Rate: 85.62%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0163
+Profile: Male, Age 21, BSN
+CGPA: 2.46
+Predicted Employment Rate: 85.62%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0249
+Profile: Male, Age 23, BSSE
+CGPA: 2.4
+Predicted Employment Rate: 85.61%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0219
+Profile: Male, Age 27, BSN
+CGPA: 2.42
+Predicted Employment Rate: 85.61%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0294
+Profile: Male, Age 23, BSP
+CGPA: 2.4
+Predicted Employment Rate: 85.61%
+Employability Probability: 71.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0037
+Profile: Female, Age 23, BSSE
+CGPA: 2.42
+Predicted Employment Rate: 85.61%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0034
+Profile: Male, Age 27, BSSE
+CGPA: 2.26
+Predicted Employment Rate: 85.61%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0011
+Profile: Female, Age 25, BSE
+CGPA: 2.36
+Predicted Employment Rate: 85.61%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0180
+Profile: Male, Age 27, BSE
+CGPA: 2.42
+Predicted Employment Rate: 85.61%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0282
+Profile: Male, Age 24, BSBA
+CGPA: 2.37
+Predicted Employment Rate: 85.6%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0152
+Profile: Male, Age 26, BSCS
+CGPA: 2.39
+Predicted Employment Rate: 85.6%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0139
+Profile: Male, Age 26, BSP
+CGPA: 2.36
+Predicted Employment Rate: 85.59%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0087
+Profile: Female, Age 20, BSCS
+CGPA: 2.44
+Predicted Employment Rate: 85.59%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0049
+Profile: Female, Age 27, BSHM
+CGPA: 2.32
+Predicted Employment Rate: 85.58%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0040
+Profile: Male, Age 26, BSSE
+CGPA: 2.33
+Predicted Employment Rate: 85.57%
+Employability Probability: 49.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0285
+Profile: Male, Age 24, BSP
+CGPA: 2.21
+Predicted Employment Rate: 85.57%
+Employability Probability: 46.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0141
+Profile: Female, Age 26, BSCS
+CGPA: 2.21
+Predicted Employment Rate: 85.55%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0008
+Profile: Male, Age 20, BSCS
+CGPA: 2.42
+Predicted Employment Rate: 85.55%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0004
+Profile: Male, Age 23, BSA
+CGPA: 2.35
+Predicted Employment Rate: 85.54%
+Employability Probability: 59.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0111
+Profile: Male, Age 21, BSP
+CGPA: 2.33
+Predicted Employment Rate: 85.51%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0148
+Profile: Male, Age 27, BSE
+CGPA: 2.22
+Predicted Employment Rate: 85.48%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0298
+Profile: Male, Age 26, BSN
+CGPA: 2.19
+Predicted Employment Rate: 85.47%
+Employability Probability: 62.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0097
+Profile: Male, Age 27, BSA
+CGPA: 2.2
+Predicted Employment Rate: 85.46%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0083
+Profile: Female, Age 21, BSE
+CGPA: 2.3
+Predicted Employment Rate: 85.46%
+Employability Probability: 66.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0170
+Profile: Female, Age 21, BSP
+CGPA: 2.3
+Predicted Employment Rate: 85.46%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0006
+Profile: Female, Age 24, BSCS
+CGPA: 2.13
+Predicted Employment Rate: 85.45%
+Employability Probability: 64.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0202
+Profile: Female, Age 22, BSA
+CGPA: 2.27
+Predicted Employment Rate: 85.43%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0155
+Profile: Female, Age 21, BSBA
+CGPA: 2.19
+Predicted Employment Rate: 85.43%
+Employability Probability: 56.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0169
+Profile: Female, Age 23, BSA
+CGPA: 2.16
+Predicted Employment Rate: 85.42%
+Employability Probability: 50.0%
+Prediction: Employable
+--------------------------------------------------
+
+Student Number: S0239
+Profile: Female, Age 21, BSA
+CGPA: 2.03
+Predicted Employment Rate: 85.37%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0241
+Profile: Male, Age 20, BSP
+CGPA: 2.17
+Predicted Employment Rate: 85.36%
+Employability Probability: 68.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0185
+Profile: Female, Age 20, BSSE
+CGPA: 2.25
+Predicted Employment Rate: 85.36%
+Employability Probability: 71.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0296
+Profile: Female, Age 22, BSBA
+CGPA: 2.11
+Predicted Employment Rate: 85.36%
+Employability Probability: 58.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0281
+Profile: Male, Age 20, BSSE
+CGPA: 2.23
+Predicted Employment Rate: 85.36%
+Employability Probability: 61.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0157
+Profile: Female, Age 24, BSP
+CGPA: 2.03
+Predicted Employment Rate: 85.36%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0246
+Profile: Female, Age 20, BSN
+CGPA: 2.05
+Predicted Employment Rate: 85.35%
+Employability Probability: 70.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0292
+Profile: Male, Age 26, BSBA
+CGPA: 2.02
+Predicted Employment Rate: 85.35%
+Employability Probability: 55.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0144
+Profile: Female, Age 22, BSHM
+CGPA: 2.12
+Predicted Employment Rate: 85.35%
+Employability Probability: 57.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0047
+Profile: Female, Age 21, BSP
+CGPA: 2.09
+Predicted Employment Rate: 85.33%
+Employability Probability: 65.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0265
+Profile: Female, Age 20, BSSE
+CGPA: 2.08
+Predicted Employment Rate: 85.27%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0025
+Profile: Male, Age 26, BSCS
+CGPA: 2.16
+Predicted Employment Rate: 85.27%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0192
+Profile: Male, Age 22, BSA
+CGPA: 2.08
+Predicted Employment Rate: 85.25%
+Employability Probability: 53.0%
+Prediction: Not Employable
+--------------------------------------------------
+
+Student Number: S0062
+Profile: Male, Age 26, BSHM
+CGPA: 2.11
+Predicted Employment Rate: 85.11%
+Employability Probability: 63.0%
+Prediction: Not Employable
+--------------------------------------------------
