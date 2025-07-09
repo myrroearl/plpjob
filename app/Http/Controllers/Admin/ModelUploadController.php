@@ -7,6 +7,7 @@ use App\Models\AlumniPredictionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\File;
 
 class ModelUploadController extends Controller
 {
@@ -28,20 +29,24 @@ class ModelUploadController extends Controller
                 'modelFile' => 'required|file|mimes:csv,xlsx,xls|max:10240'
             ]);
 
-            // Clear existing files in the data directory
-            Storage::disk('local')->deleteDirectory('data');
-            Storage::disk('local')->makeDirectory('data');
+            // Clear existing files in the public data directory
+            $publicDataPath = public_path('assets/data');
+            if (File::exists($publicDataPath)) {
+                File::cleanDirectory($publicDataPath);
+            } else {
+                File::makeDirectory($publicDataPath, 0755, true, true);
+            }
 
             $file = $request->file('modelFile');
-            $uploadPath = 'data/modeltrained.csv';
+            $publicFilePath = $publicDataPath . '/modeltrained.csv';
 
             // Convert Excel to CSV if needed
             if ($file->getClientMimeType() !== 'text/csv') {
                 $spreadsheet = IOFactory::load($file->getPathname());
                 $writer = IOFactory::createWriter($spreadsheet, 'Csv');
-                $writer->save(storage_path('app/data/modeltrained.csv'));
+                $writer->save($publicFilePath);
             } else {
-                Storage::putFileAs('data', $file, 'modeltrained.csv');
+                $file->move($publicDataPath, 'modeltrained.csv');
             }
 
             // Create model record
@@ -57,15 +62,13 @@ class ModelUploadController extends Controller
 
             // Run Python script with full path
             $figuresPath = public_path('assets/figures'); // Path for saving figures
-            $csvPath = storage_path('app/private/data/modeltrained.csv'); // Path for reading CSV
+            $csvPath = public_path('assets/data/modeltrained.csv'); // Updated path for reading CSV
 
             // Construct the command to run Python script
-            $command = "C:\Users\Rommel\AppData\Local\Programs\Python\Python312\python.exe " 
-                . base_path('storage/app/python/process_model.py') . " "
+            $command = "python3 " 
+                . public_path('assets/python/process_model.py') . " "
                 . escapeshellarg($figuresPath) . " "
                 . escapeshellarg($csvPath);
-
-
 
             $output = shell_exec($command);
 
@@ -86,4 +89,4 @@ class ModelUploadController extends Controller
             ], 500);
         }
     }
-} 
+}
