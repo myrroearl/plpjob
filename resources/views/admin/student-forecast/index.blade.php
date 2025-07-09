@@ -183,13 +183,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="dashboard-card">
-                        <img src="<?php echo asset('storage/predictions/employability_by_degree.png'); ?>" alt="Employability by Degree" class="img-fluid">
+                        <img src="<?php echo asset('assets/predictions/employability_by_degree.png'); ?>" alt="Employability by Degree" class="img-fluid">
                         <h5 class="text-center">Predicted Employability by Degree</h5>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="dashboard-card">
-                        <img src="<?php echo asset('storage/predictions/employment_rate_distribution.png'); ?>" alt="Employment Rate Distribution" class="img-fluid">
+                        <img src="<?php echo asset('assets/predictions/employment_rate_distribution.png'); ?>" alt="Employment Rate Distribution" class="img-fluid">
                         <h5 class="text-center">Distribution of Predicted Employment Rates</h5>
                     </div>
                 </div>
@@ -199,7 +199,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="dashboard-card">
-                        <img src="<?php echo asset('storage/predictions/top5_features.png'); ?>" alt="Top 5 Features" class="img-fluid">
+                        <img src="<?php echo asset('assets/predictions/top5_features.png'); ?>" alt="Top 5 Features" class="img-fluid">
                         <h5 class="text-center">Top 5 Factors Affecting Employability</h5>
                     </div>
                 </div>
