@@ -88,8 +88,8 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $detailedPredictionsFile = storage_path('app/public/predictions/detailed_predictions.txt');
-        $csvPredictionsFile = storage_path('app/public/predictions/student_employability_predictions.csv');
+        $detailedPredictionsFile = public_path('assets/predictions/detailed_predictions.txt');
+        $csvPredictionsFile = public_path('assets/predictions/student_employability_predictions.csv');
 
         $detailedPredictions = file_exists($detailedPredictionsFile) ? file_get_contents($detailedPredictionsFile) : '';
         $csvData = [];
@@ -128,7 +128,7 @@ class ReportController extends Controller
         $yearFilter = $request->query('year');
         $degreeFilter = $request->query('degree');
 
-        $csvFile = storage_path('app/public/predictions/student_employability_predictions.csv');
+        $csvFile = public_path('assets/predictions/student_employability_predictions.csv');
         $pdf = new PDF();
         $pdf->AliasNbPages();
         $pdf->AddPage('L');
