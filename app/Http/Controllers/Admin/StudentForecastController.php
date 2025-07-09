@@ -10,8 +10,8 @@ class StudentForecastController extends Controller
 {
     public function index()
     {
-        $detailedPredictionsFile = storage_path('app/public/predictions/detailed_predictions.txt');
-        $csvPredictionsFile = storage_path('app/public/predictions/student_employability_predictions.csv');
+        $detailedPredictionsFile = public_path('aseets/predictions/detailed_predictions.txt');
+        $csvPredictionsFile = public_path('aseets/predictions/student_employability_predictions.csv');
 
         $detailedPredictions = file_exists($detailedPredictionsFile) ? file_get_contents($detailedPredictionsFile) : '';
         $csvData = [];
