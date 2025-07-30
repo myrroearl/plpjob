@@ -38,7 +38,7 @@
             <div class="col-md-8">
                 <div class="dashboard-card">
                     <h3>Employment Rate Forecast</h3>
-                    <img src="{{ asset('assets/figures/' . $modelData->employment_rate_forecast_line_image) }}" 
+                    <img src="https://cawdbumigiwafukejndb.supabase.co/storage/v1/object/public/adminfiles//employment_rate_comparison.png" 
                          class="img-fluid" alt="Employment Rate Forecast">
                 </div>
             </div>
