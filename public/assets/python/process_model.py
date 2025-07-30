@@ -561,10 +561,10 @@ try:
         print(f"PUBLIC_URL:{filename3}:{public_url3}")
 
         conn = mysql.connector.connect(
-            host='127.0.0.1',
+            host='mainline.proxy.rlwy.net',
             user='root',
-            password='',
-            database='plpalumnijobportal_db'
+            password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
+            database='railway'
         )
         cursor = conn.cursor()
         
