@@ -118,7 +118,7 @@ class ModelUploadController extends Controller
             ]);
             
             // Construct the command to run Python script with CSV filename
-            $command = "python " . escapeshellarg($pythonScriptPath) . " " . escapeshellarg($csvFilename);
+            $command = "python3 " . escapeshellarg($pythonScriptPath) . " " . escapeshellarg($csvFilename);
             
             \Log::info('Python command', ['command' => $command]);
             
