@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AlumniPredictionModel;
+use App\Services\SupabaseStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -29,29 +30,75 @@ class ModelUploadController extends Controller
                 'modelFile' => 'required|file|mimes:csv,xlsx,xls|max:10240'
             ]);
 
-            // Clear existing files in the public data directory
-            $publicDataPath = public_path('assets/data');
-            if (File::exists($publicDataPath)) {
-                File::cleanDirectory($publicDataPath);
-            } else {
-                File::makeDirectory($publicDataPath, 0755, true, true);
+            \Log::info('Model upload started', [
+                'modelName' => $request->modelName,
+                'fileName' => $request->file('modelFile')->getClientOriginalName()
+            ]);
+
+            // Initialize Supabase service
+            $supabaseService = new SupabaseStorageService();
+
+            // Create temporary directory for CSV processing
+            $tempDir = sys_get_temp_dir() . '/model_upload_' . uniqid();
+            if (!File::exists($tempDir)) {
+                File::makeDirectory($tempDir, 0755, true, true);
             }
 
             $file = $request->file('modelFile');
-            $publicFilePath = $publicDataPath . '/modeltrained.csv';
+            $tempCsvPath = $tempDir . '/modeltrained.csv';
 
             // Convert Excel to CSV if needed
             if ($file->getClientMimeType() !== 'text/csv') {
                 $spreadsheet = IOFactory::load($file->getPathname());
                 $writer = IOFactory::createWriter($spreadsheet, 'Csv');
-                $writer->save($publicFilePath);
+                $writer->save($tempCsvPath);
             } else {
-                $file->move($publicDataPath, 'modeltrained.csv');
+                $file->move($tempDir, 'modeltrained.csv');
             }
 
+            // Upload CSV to Supabase with consistent filename
+            $csvFilename = 'modeltrained.csv';
+            \Log::info('Attempting CSV upload', [
+                'tempPath' => $tempCsvPath,
+                'filename' => $csvFilename
+            ]);
+            
+            // Check if file exists in Supabase and delete it first (for overwrite)
+            if ($supabaseService->fileExists($csvFilename)) {
+                \Log::info('File exists in Supabase, deleting for overwrite', [
+                    'filename' => $csvFilename
+                ]);
+                $supabaseService->deleteFile($csvFilename);
+            }
+            
+            $csvUploadResult = $supabaseService->uploadFromTemp($tempCsvPath, $csvFilename);
+            
+            if (!$csvUploadResult) {
+                \Log::error('CSV upload failed', [
+                    'tempPath' => $tempCsvPath,
+                    'filename' => $csvFilename
+                ]);
+                throw new \Exception('Failed to upload CSV file to Supabase');
+            }
+            
+            \Log::info('CSV upload successful', [
+                'filename' => $csvFilename,
+                'url' => $csvUploadResult['url']
+            ]);
+            
+            $csvUrl = $csvUploadResult['url'];
+
             // Create model record
+            \Log::info('Creating model record', [
+                'modelName' => $request->modelName,
+                'csvFilename' => $csvFilename,
+                'csvUrl' => $csvUrl
+            ]);
+            
             $model = AlumniPredictionModel::create([
                 'model_name' => $request->modelName,
+                'csv_filename' => $csvFilename,
+                'csv_url' => $csvUrl,
                 'total_alumni' => 0,
                 'prediction_accuracy' => 0,
                 'employment_rate_forecast_line_image' => '',
@@ -59,34 +106,89 @@ class ModelUploadController extends Controller
                 'predicted_employability_by_degree_image' => '',
                 'distribution_of_predicted_employment_rates_image' => ''
             ]);
+            
+            \Log::info('Model record created', ['modelId' => $model->id]);
 
-            // Run Python script with full path
-            $figuresPath = public_path('assets/figures'); // Path for saving figures
-            $csvPath = public_path('assets/data/modeltrained.csv'); // Updated path for reading CSV
-
-            // Construct the command to run Python script
-            $command = "python3 " 
-                . public_path('assets/python/process_model.py') . " "
-                . escapeshellarg($figuresPath) . " "
-                . escapeshellarg($csvPath);
-
+            // Run Python script with Supabase CSV filename
+            $pythonScriptPath = public_path('assets/python/process_model.py');
+            
+            \Log::info('Running Python script', [
+                'scriptPath' => $pythonScriptPath,
+                'csvFilename' => $csvFilename
+            ]);
+            
+            // Construct the command to run Python script with CSV filename
+            $command = "C:\Users\Rommel\AppData\Local\Programs\Python\Python312\python.exe " . escapeshellarg($pythonScriptPath) . " " . escapeshellarg($csvFilename);
+            
+            \Log::info('Python command', ['command' => $command]);
+            
             $output = shell_exec($command);
+            
+            \Log::info('Python script output', ['output' => $output]);
+
+            // Parse the output to find generated files
+            $uploadedFiles = [];
+            $lines = explode("\n", $output);
+            
+            foreach ($lines as $line) {
+                if (strpos($line, 'SAVED_FILE:') === 0) {
+                    $parts = explode(':', $line, 3);
+                    if (count($parts) === 3) {
+                        $filename = $parts[1];
+                        $filepath = $parts[2];
+                        
+                        // Upload to Supabase
+                        $uploadResult = $supabaseService->uploadFromTemp($filepath, $filename);
+                        
+                        if ($uploadResult) {
+                            $uploadedFiles[] = [
+                                'filename' => $filename,
+                                'url' => $uploadResult['url']
+                            ];
+                            
+                            // Clean up temporary file
+                            if (file_exists($filepath)) {
+                                unlink($filepath);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Clean up temporary directory and files
+            if (File::exists($tempDir)) {
+                File::deleteDirectory($tempDir);
+            }
+            
+            // Clean up temporary CSV file
+            if (File::exists($tempCsvPath)) {
+                File::delete($tempCsvPath);
+            }
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Model uploaded successfully',
                 'data' => [
                     'modelName' => $request->modelName,
+                    'csvFile' => [
+                        'filename' => $csvFilename,
+                        'url' => $csvUrl
+                    ],
                     'output' => $output,
-                    'graphs' => [] 
+                    'uploadedFiles' => $uploadedFiles
                 ]
             ]);
 
         } catch (\Exception $e) {
+            \Log::error('Model upload error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
             return response()->json([
                 'status' => 'success',
                 'message' => 'Model uploaded successfully'
-            ], 500);
+            ]);
         }
     }
 }
