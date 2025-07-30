@@ -21,39 +21,153 @@ import warnings
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 import mysql.connector
+import tempfile
+from supabase import create_client, Client
+import io
 
 # Suppress all warnings
 warnings.filterwarnings("ignore")
 
+# Set matplotlib to use non-interactive backend
+plt.switch_backend('Agg')
 
-def generate_unique_filename(extension="txt"):
+def generate_unique_filename(extension="png"):
     unique_id = uuid.uuid4()  # Generate a unique ID
     return f"{unique_id}.{extension}"
 
-csv_path = sys.argv[2] 
-# Read and preprocess the data
-df = pd.read_csv(csv_path)
+# Get temporary directory for saving files
+temp_dir = tempfile.gettempdir()
+# Handle command line arguments
+if len(sys.argv) < 2:
+    print("Error: CSV filename is required")
+    sys.exit(1)
+
+csv_filename = sys.argv[1]
+
+# Supabase configuration
+SUPABASE_URL = "https://cawdbumigiwafukejndb.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhd2RidW1pZ2l3YWZ1a2VqbmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4MzY5NDYsImV4cCI6MjA2OTQxMjk0Nn0.R0twY6a16flkMAMdh6kndykvNRIG5d2FGlOpqoxQL20"
+BUCKET_NAME = "adminfiles"
+
+# Initialize Supabase client
+try:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    print(f"Supabase client initialized successfully")
+except Exception as e:
+    print(f"Error initializing Supabase client: {e}")
+    sys.exit(1)
+
+# Read CSV data directly from Supabase
+try:
+    print(f"Reading CSV file: {csv_filename} from Supabase bucket: {BUCKET_NAME}")
+    
+    # Download file from Supabase Storage
+    response = supabase.storage.from_(BUCKET_NAME).download(csv_filename)
+    
+    if response is None:
+        raise Exception("No response from Supabase")
+    
+    print(f"Successfully retrieved file from Supabase")
+    print(f"Response type: {type(response)}")
+    print(f"Response length: {len(response) if hasattr(response, '__len__') else 'N/A'}")
+    
+    # Read CSV directly from memory using StringIO
+    csv_content = response.decode('utf-8')
+    
+    # Force manual parsing since standard CSV parsing is not working correctly
+    print("Using manual parsing for CSV...")
+    
+    # Manual parsing approach - handle escaped newlines
+    csv_content = csv_content.replace('\\n', '\n')
+    lines = csv_content.strip().split('\n')
+    if len(lines) > 1:
+        # Get header
+        header = lines[0].split(',')
+        # Get data rows
+        data_rows = []
+        for line in lines[1:]:
+            if line.strip():
+                data_rows.append(line.split(','))
+        
+        # Create DataFrame
+        df = pd.DataFrame(data_rows, columns=header)
+        print(f"Successfully loaded CSV file with manual parsing")
+        print(f"Data shape: {df.shape}")
+        print(f"Columns: {list(df.columns)}")
+        print(f"First few rows:")
+        print(df.head())
+    else:
+        raise Exception("No data rows found")
+    
+except Exception as e:
+    print(f"Error reading CSV file from Supabase: {e}")
+    print(f"Error type: {type(e).__name__}")
+    import traceback
+    print(f"Full traceback: {traceback.format_exc()}")
+    sys.exit(1)
 
 # Prepare features for Employment Rate prediction
 feature_columns = ['CGPA', 'Average Prof Grade', 'Average Elec Grade', 'OJT Grade', 
                   'Leadership POS', 'Act Member POS', 'Soft Skills Ave', 'Hard Skills Ave']
+
+# Check if all required columns exist
+missing_columns = [col for col in feature_columns if col not in df.columns]
+if missing_columns:
+    print(f"Missing columns: {missing_columns}")
+    print(f"Available columns: {list(df.columns)}")
+    print("Please ensure your CSV file contains all required columns:")
+    for col in feature_columns:
+        print(f"  - {col}")
+    sys.exit(1)
+
+print(f"Using feature columns: {feature_columns}")
 X = df[feature_columns].copy()
+
+# Clean the data - remove any rows with NaN values
+print(f"Original data shape: {X.shape}")
+X = X.dropna()
+print(f"Data shape after removing NaN values: {X.shape}")
 
 # Convert Yes/No to 1/0 for binary columns
 X['Leadership POS'] = (X['Leadership POS'] == 'Yes').astype(int)
 X['Act Member POS'] = (X['Act Member POS'] == 'Yes').astype(int)
 
+# Check if Employability column exists
+if 'Employability' not in df.columns:
+    print(f"Missing 'Employability' column")
+    print(f"Available columns: {list(df.columns)}")
+    sys.exit(1)
+
+# Clean the target variable as well - remove rows where target is NaN
+y = df['Employability'].map({'Employable': 1, 'Not Employable': 0})
+print(f"Original target shape: {y.shape}")
+y = y.dropna()
+print(f"Target shape after removing NaN values: {y.shape}")
+
+# Align X and y indices
+common_index = X.index.intersection(y.index)
+X = X.loc[common_index]
+y = y.loc[common_index]
+print(f"Final aligned data shape: X={X.shape}, y={y.shape}")
+
 # Create initial employment rate predictions using Linear Regression
 lr_model_initial = LinearRegression()
-lr_model_initial.fit(X, df['Employability'].map({'Employable': 1, 'Not Employable': 0}))  # Convert target to binary
+lr_model_initial.fit(X, y)  # Convert target to binary
 initial_employment_rate = lr_model_initial.predict(X)
 
-# Add predicted Employment Rate to dataframe
-df['Employment Rate'] = initial_employment_rate * 100  # Convert to percentage
+# Create a cleaned DataFrame for all operations
+df_clean = df.loc[common_index].copy()
+df_clean['Employment Rate'] = initial_employment_rate * 100  # Convert to percentage
+
+# Check if Year Graduated column exists
+if 'Year Graduated' not in df_clean.columns:
+    print(f"Missing 'Year Graduated' column")
+    print(f"Available columns: {list(df_clean.columns)}")
+    sys.exit(1)
 
 # Create time series by graduation year
-df['Year Graduated'] = pd.to_datetime(df['Year Graduated'], format='%Y')
-yearly_data = df.groupby('Year Graduated')['Employment Rate'].mean()
+df_clean['Year Graduated'] = pd.to_datetime(df_clean['Year Graduated'], format='%Y')
+yearly_data = df_clean.groupby('Year Graduated')['Employment Rate'].mean()
 
 # Convert to time series
 ts = pd.Series(yearly_data.values, index=yearly_data.index)
@@ -152,15 +266,30 @@ try:
 
     plt.tight_layout()
 
-    # Correct the path for saving figures
-    # Create figures directory if it doesn't exist
-    figures_path = sys.argv[1]
+    # Save to BytesIO and upload to Supabase (with error checking)
+    buf1 = io.BytesIO()
+    plt.savefig(buf1, format='png')
+    plt.close()
+    filename1 = 'employment_rate_forecast_line.png'
     
+    # Try to delete the file first (ignore errors if it doesn't exist)
+    try:
+        supabase.storage.from_(BUCKET_NAME).remove(filename1)
+    except Exception as e:
+        print(f"Warning: Could not delete {filename1} before upload: {e}")
 
-    # Update the plot saving paths
-    employment_rate_line_id = uuid.uuid4()
-    plt.savefig(f"{figures_path}/{employment_rate_line_id}.png")
-    
+    # Now upload
+    try:
+        response1 = supabase.storage.from_(BUCKET_NAME).upload(
+            filename1, buf1.getvalue(),
+            file_options={"content-type": "image/png"}
+        )
+        print(f"Upload response for {filename1}: {response1}")
+    except Exception as e:
+        print(f"Exception during upload for {filename1}: {e}")
+    public_url1 = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET_NAME}/{filename1}"
+    print(f"PUBLIC_URL:{filename1}:{public_url1}")
+
 
     # Print yearly statistics
     print("\nYearly Employment Rate Statistics:")
@@ -235,8 +364,30 @@ try:
                     color='green')
 
     plt.tight_layout()
-    employment_rate_comparison_id = uuid.uuid4()
-    plt.savefig(f"{figures_path}/{employment_rate_comparison_id}.png")
+
+    # Save to BytesIO and upload to Supabase (with error checking)
+    buf2 = io.BytesIO()
+    plt.savefig(buf2, format='png')
+    plt.close()
+    filename2 = 'employment_rate_comparison.png'
+    
+    # Try to delete the file first (ignore errors if it doesn't exist)
+    try:
+        supabase.storage.from_(BUCKET_NAME).remove(filename2)
+    except Exception as e:
+        print(f"Warning: Could not delete {filename2} before upload: {e}")
+
+    # Now upload
+    try:
+        response2 = supabase.storage.from_(BUCKET_NAME).upload(
+            filename2, buf2.getvalue(),
+            file_options={"content-type": "image/png"}
+        )
+        print(f"Upload response for {filename2}: {response2}")
+    except Exception as e:
+        print(f"Exception during upload for {filename2}: {e}")
+    public_url2 = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET_NAME}/{filename2}"
+    print(f"PUBLIC_URL:{filename2}:{public_url2}")
    
 
     # Print forecast values
@@ -384,14 +535,36 @@ try:
                         color='green')
         
         plt.tight_layout()
-        employment_rate_comparison_id = uuid.uuid4()
-        plt.savefig(f"{figures_path}/{employment_rate_comparison_id}.png")
+
+        # Save to BytesIO and upload to Supabase (with error checking)
+        buf3 = io.BytesIO()
+        plt.savefig(buf3, format='png')
+        plt.close()
+        filename3 = 'linear_regression_comparison.png'
+        
+        # Try to delete the file first (ignore errors if it doesn't exist)
+        try:
+            supabase.storage.from_(BUCKET_NAME).remove(filename3)
+        except Exception as e:
+            print(f"Warning: Could not delete {filename3} before upload: {e}")
+
+        # Now upload
+        try:
+            response3 = supabase.storage.from_(BUCKET_NAME).upload(
+                filename3, buf3.getvalue(),
+                file_options={"content-type": "image/png"}
+            )
+            print(f"Upload response for {filename3}: {response3}")
+        except Exception as e:
+            print(f"Exception during upload for {filename3}: {e}")
+        public_url3 = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET_NAME}/{filename3}"
+        print(f"PUBLIC_URL:{filename3}:{public_url3}")
 
         conn = mysql.connector.connect(
-            host='mainline.proxy.rlwy.net',
+            host='127.0.0.1',
             user='root',
-            password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
-            database='railway'
+            password='',
+            database='plpalumnijobportal_db'
         )
         cursor = conn.cursor()
         
@@ -430,10 +603,10 @@ except Exception as e:
 # Connect to the MySQL database
 try:
     conn = mysql.connector.connect(
-        host='mainline.proxy.rlwy.net',
+        host='127.0.0.1',
         user='root',
-        password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
-        database='railway'
+        password='',
+        database='plpalumnijobportal_db'
     )
     cursor = conn.cursor()
 
@@ -457,9 +630,9 @@ try:
             distribution_of_predicted_employment_rates_image = %s
         WHERE id = (SELECT MAX(id) FROM alumni_prediction_models)
     """, (
-        len(df),  # total_alumni
+        len(df_clean),  # total_alumni - use cleaned data length
         yearly_comparison['Accuracy'].mean(),  # prediction_accuracy
-        str(employment_rate_line_id) + '.png',  # employment_rate_forecast_line_image
+        filename1,  # employment_rate_forecast_line_image
         rmse,  # rmse
         mae,  # mae
         r2,  # r2
@@ -468,7 +641,7 @@ try:
         yearly_comparison['Actual'].iloc[-1],  # actual_rate
         yearly_comparison['Predicted'].iloc[-1],  # predicted_rate
         abs(yearly_comparison['Actual'].iloc[-1] - yearly_comparison['Predicted'].iloc[-1]),  # margin_of_error
-        str(employment_rate_comparison_id) + '.png',  # employment_rate_comparison_image
+        filename2,  # employment_rate_comparison_image
         '',  # predicted_employability_by_degree_image (placeholder)
         ''   # distribution_of_predicted_employment_rates_image (placeholder)
     ))
