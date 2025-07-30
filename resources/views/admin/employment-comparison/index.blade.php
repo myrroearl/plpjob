@@ -75,7 +75,7 @@
                         <h3 class="card-title">Employment Rate Comparison</h3>
                     </div>
                     <div id="comparisonChart">
-                        <img src="{{ asset('assets/figures/' . $modelData->employment_rate_forecast_line_image) }}" 
+                        <img src="https://cawdbumigiwafukejndb.supabase.co/storage/v1/object/public/adminfiles//employment_rate_forecast_line.png" 
                             class="img-fluid" alt="Employment Rate Forecast">
                     </div>
                 </div>
