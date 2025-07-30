@@ -562,7 +562,7 @@ try:
 
         conn = mysql.connector.connect(
             host='mainline.proxy.rlwy.net',
-            root=48259,
+            port=48259,
             user='root',
             password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
             database='railway'
@@ -605,7 +605,7 @@ except Exception as e:
 try:
     conn = mysql.connector.connect(
         host='mainline.proxy.rlwy.net',
-        root=48259,
+        port=48259,
         user='root',
         password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
         database='railway'
