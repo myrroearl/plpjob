@@ -560,6 +560,100 @@ try:
         public_url3 = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET_NAME}/{filename3}"
         print(f"PUBLIC_URL:{filename3}:{public_url3}")
 
+        conn = mysql.connector.connect(
+            host='mainline.proxy.rlwy.net',
+            user='root',
+            password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
+            database='railway'
+        )
+        cursor = conn.cursor()
+        
+        # Update the database values with Linear Regression results if it's better
+        if 'conn' in locals():
+            try:
+                cursor.execute("""
+                    UPDATE alumni_prediction_models 
+                    SET 
+                        prediction_accuracy = %s,
+                        rmse = %s,
+                        mae = %s,
+                        r2 = %s,
+                        predicted_rate = %s,
+                        model_type = 'Linear Regression'
+                    WHERE id = (SELECT MAX(id) FROM alumni_prediction_models)
+                """, (
+                    (1 - lr_results['metrics']['mape']/100) * 100,  # prediction_accuracy
+                    lr_results['metrics']['rmse'],
+                    lr_results['metrics']['mae'],
+                    lr_results['metrics']['r2'],
+                    lr_results['predictions'][-1]
+                ))
+                conn.commit()
+            except Exception as e:
+                print(f"Database error while updating Linear Regression results: {e}")
+                if conn:
+                    conn.rollback()
+
+except Exception as e:
+    print(f"An error occurred: {e}")
 
 
 
+
+# Connect to the MySQL database
+try:
+    conn = mysql.connector.connect(
+        host='mainline.proxy.rlwy.net',
+        user='root',
+        password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
+        database='railway'
+    )
+    cursor = conn.cursor()
+
+    # Update the table name to match our Laravel migration
+    cursor.execute("""
+        UPDATE alumni_prediction_models 
+        SET 
+            total_alumni = %s,
+            prediction_accuracy = %s,
+            employment_rate_forecast_line_image = %s,
+            rmse = %s,
+            mae = %s,
+            r2 = %s,
+            aic = %s,
+            confidence_interval = %s,
+            actual_rate = %s,
+            predicted_rate = %s,
+            margin_of_error = %s,
+            employment_rate_comparison_image = %s,
+            predicted_employability_by_degree_image = %s,
+            distribution_of_predicted_employment_rates_image = %s
+        WHERE id = (SELECT MAX(id) FROM alumni_prediction_models)
+    """, (
+        len(df_clean),  # total_alumni - use cleaned data length
+        yearly_comparison['Accuracy'].mean(),  # prediction_accuracy
+        filename1,  # employment_rate_forecast_line_image
+        rmse,  # rmse
+        mae,  # mae
+        r2,  # r2
+        aic,  # aic
+        conf_int.iloc[-1, 1] - conf_int.iloc[-1, 0],  # confidence_interval
+        yearly_comparison['Actual'].iloc[-1],  # actual_rate
+        yearly_comparison['Predicted'].iloc[-1],  # predicted_rate
+        abs(yearly_comparison['Actual'].iloc[-1] - yearly_comparison['Predicted'].iloc[-1]),  # margin_of_error
+        filename2,  # employment_rate_comparison_image
+        '',  # predicted_employability_by_degree_image (placeholder)
+        ''   # distribution_of_predicted_employment_rates_image (placeholder)
+    ))
+
+    conn.commit()
+
+except Exception as e:
+    print(f"Database error: {e}")
+    if conn:
+        conn.rollback()
+finally:
+    if cursor:
+        cursor.close()
+    if conn:
+        conn.close()
