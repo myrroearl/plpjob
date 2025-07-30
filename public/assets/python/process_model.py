@@ -560,44 +560,6 @@ try:
         public_url3 = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET_NAME}/{filename3}"
         print(f"PUBLIC_URL:{filename3}:{public_url3}")
 
-        conn = mysql.connector.connect(
-            host='mainline.proxy.rlwy.net',
-            port=48259,
-            user='root',
-            password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
-            database='railway'
-        )
-        cursor = conn.cursor()
-        
-        # Update the database values with Linear Regression results if it's better
-        if 'conn' in locals():
-            try:
-                cursor.execute("""
-                    UPDATE alumni_prediction_models 
-                    SET 
-                        prediction_accuracy = %s,
-                        rmse = %s,
-                        mae = %s,
-                        r2 = %s,
-                        predicted_rate = %s,
-                        model_type = 'Linear Regression'
-                    WHERE id = (SELECT MAX(id) FROM alumni_prediction_models)
-                """, (
-                    (1 - lr_results['metrics']['mape']/100) * 100,  # prediction_accuracy
-                    lr_results['metrics']['rmse'],
-                    lr_results['metrics']['mae'],
-                    lr_results['metrics']['r2'],
-                    lr_results['predictions'][-1]
-                ))
-                conn.commit()
-            except Exception as e:
-                print(f"Database error while updating Linear Regression results: {e}")
-                if conn:
-                    conn.rollback()
-
-except Exception as e:
-    print(f"An error occurred: {e}")
-
 
 
 
