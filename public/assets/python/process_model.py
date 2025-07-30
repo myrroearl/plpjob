@@ -564,7 +564,8 @@ try:
             host='mainline.proxy.rlwy.net',
             user='root',
             password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
-            database='railway'
+            database='railway',
+            port=48259
         )
         cursor = conn.cursor()
         
@@ -606,7 +607,8 @@ try:
         host='mainline.proxy.rlwy.net',
         user='root',
         password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
-        database='railway'
+        database='railway',
+        port=48259
     )
     cursor = conn.cursor()
 
