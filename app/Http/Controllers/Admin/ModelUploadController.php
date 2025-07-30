@@ -126,117 +126,34 @@ class ModelUploadController extends Controller
             
             \Log::info('Python script output', ['output' => $output]);
 
-            // Parse the output to find generated files and model information
+            // Parse the output to find generated files
             $uploadedFiles = [];
-            $modelType = 'ARIMA'; // Default
-            $modelMetrics = [];
             $lines = explode("\n", $output);
             
             foreach ($lines as $line) {
-                $line = trim($line);
-                
-                // Parse model type
-                if (strpos($line, 'MODEL_TYPE:') === 0) {
-                    $modelType = trim(str_replace('MODEL_TYPE:', '', $line));
-                }
-                
-                // Parse final metrics
-                if (strpos($line, 'FINAL_RMSE:') === 0) {
-                    $modelMetrics['rmse'] = floatval(str_replace('FINAL_RMSE:', '', $line));
-                }
-                if (strpos($line, 'FINAL_MAE:') === 0) {
-                    $modelMetrics['mae'] = floatval(str_replace('FINAL_MAE:', '', $line));
-                }
-                if (strpos($line, 'FINAL_R2:') === 0) {
-                    $modelMetrics['r2'] = floatval(str_replace('FINAL_R2:', '', $line));
-                }
-                if (strpos($line, 'FINAL_MAPE:') === 0) {
-                    $modelMetrics['mape'] = floatval(str_replace('FINAL_MAPE:', '', $line));
-                }
-                
-                // Parse Linear Regression metrics if available
-                if (strpos($line, 'LR_RMSE:') === 0) {
-                    $modelMetrics['lr_rmse'] = floatval(str_replace('LR_RMSE:', '', $line));
-                }
-                if (strpos($line, 'LR_MAE:') === 0) {
-                    $modelMetrics['lr_mae'] = floatval(str_replace('LR_MAE:', '', $line));
-                }
-                if (strpos($line, 'LR_R2:') === 0) {
-                    $modelMetrics['lr_r2'] = floatval(str_replace('LR_R2:', '', $line));
-                }
-                if (strpos($line, 'LR_MAPE:') === 0) {
-                    $modelMetrics['lr_mape'] = floatval(str_replace('LR_MAPE:', '', $line));
-                }
-                
-                // Parse PUBLIC_URL lines for image files
-                if (strpos($line, 'PUBLIC_URL:') === 0) {
+                if (strpos($line, 'SAVED_FILE:') === 0) {
                     $parts = explode(':', $line, 3);
                     if (count($parts) === 3) {
                         $filename = $parts[1];
-                        $url = $parts[2];
+                        $filepath = $parts[2];
                         
-                        $uploadedFiles[] = [
-                            'filename' => $filename,
-                            'url' => $url
-                        ];
+                        // Upload to Supabase
+                        $uploadResult = $supabaseService->uploadFromTemp($filepath, $filename);
+                        
+                        if ($uploadResult) {
+                            $uploadedFiles[] = [
+                                'filename' => $filename,
+                                'url' => $uploadResult['url']
+                            ];
+                            
+                            // Clean up temporary file
+                            if (file_exists($filepath)) {
+                                unlink($filepath);
+                            }
+                        }
                     }
                 }
             }
-
-            // Update the model record with results from Python script
-            $updateData = [
-                'model_type' => $modelType,
-                'updated_at' => now()
-            ];
-            
-            // Add metrics if available
-            if (!empty($modelMetrics)) {
-                if ($modelType === 'Linear Regression' && isset($modelMetrics['lr_rmse'])) {
-                    // Use Linear Regression metrics
-                    $updateData['rmse'] = $modelMetrics['lr_rmse'] ?? 0;
-                    $updateData['mae'] = $modelMetrics['lr_mae'] ?? 0;
-                    $updateData['r2'] = $modelMetrics['lr_r2'] ?? 0;
-                    
-                    // Calculate prediction accuracy from MAPE
-                    if (isset($modelMetrics['lr_mape'])) {
-                        $updateData['prediction_accuracy'] = max(0, 100 - $modelMetrics['lr_mape']);
-                    }
-                } else {
-                    // Use ARIMA metrics
-                    $updateData['rmse'] = $modelMetrics['rmse'] ?? 0;
-                    $updateData['mae'] = $modelMetrics['mae'] ?? 0;
-                    $updateData['r2'] = $modelMetrics['r2'] ?? 0;
-                    
-                    // Calculate prediction accuracy from MAPE
-                    if (isset($modelMetrics['mape'])) {
-                        $updateData['prediction_accuracy'] = max(0, 100 - $modelMetrics['mape']);
-                    }
-                }
-            }
-            
-            // Add image filenames if available
-            foreach ($uploadedFiles as $file) {
-                if (strpos($file['filename'], 'employment_rate_forecast_line') !== false) {
-                    $updateData['employment_rate_forecast_line_image'] = $file['filename'];
-                }
-                if (strpos($file['filename'], 'employment_rate_comparison') !== false) {
-                    $updateData['employment_rate_comparison_image'] = $file['filename'];
-                }
-                if (strpos($file['filename'], 'linear_regression_comparison') !== false) {
-                    $updateData['employment_rate_forecast_line_image'] = $file['filename'];
-                }
-            }
-            
-            // Note: total_alumni will be updated when we have the actual data count
-            // For now, we'll leave it as 0 and update it later if needed
-            
-            // Update the model record
-            $model->update($updateData);
-            
-            \Log::info('Model record updated with Python results', [
-                'modelId' => $model->id,
-                'updateData' => $updateData
-            ]);
 
             // Clean up temporary directory and files
             if (File::exists($tempDir)) {
@@ -258,9 +175,7 @@ class ModelUploadController extends Controller
                         'url' => $csvUrl
                     ],
                     'output' => $output,
-                    'uploadedFiles' => $uploadedFiles,
-                    'modelType' => $modelType,
-                    'metrics' => $modelMetrics
+                    'uploadedFiles' => $uploadedFiles
                 ]
             ]);
 
