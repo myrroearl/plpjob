@@ -8,6 +8,8 @@ class AlumniPredictionModel extends Model
 {
     protected $fillable = [
         'model_name',
+        'csv_filename',
+        'csv_url',
         'total_alumni',
         'prediction_accuracy',
         'employment_rate_forecast_line_image',
