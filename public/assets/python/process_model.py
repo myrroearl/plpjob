@@ -565,7 +565,7 @@ try:
             user='root',
             password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
             database='railway',
-            port='48259'
+            port='3306'
         )
         cursor = conn.cursor()
         
@@ -608,7 +608,7 @@ try:
         user='root',
         password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
         database='railway',
-        port='48259'
+        port='3306'
     )
     cursor = conn.cursor()
 
