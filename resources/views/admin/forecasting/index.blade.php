@@ -15,7 +15,7 @@
                         <h3 class="card-title mb-0">How many alumni are employable in the next 3 years?</h3>
                     </div>
                     <div id="forecastChart" >
-                        <img src="{{ asset('assets/figures/' . $modelData->employment_rate_comparison_image) }}" 
+                        <img src="https://cawdbumigiwafukejndb.supabase.co/storage/v1/object/public/adminfiles//employment_rate_comparison.png" 
                             class="img-fluid" alt="Employment Rate Forecast">
                     </div>
                 </div>
