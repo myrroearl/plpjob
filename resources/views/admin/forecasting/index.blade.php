@@ -28,15 +28,15 @@
                     <div class="model-info">
                         <div class="info-item">
                             <span class="info-label">Last Updated:</span>
-                            <span class="info-value">{{ $modelData->last_updated->format('F d, Y') }}</span>
+                            <span class="info-value">{{ $modelData ? \Carbon\Carbon::parse($modelData['last_updated'])->format('F d, Y') : 'N/A' }}</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Accuracy Score:</span>
-                            <span class="info-value">{{ number_format($modelData->prediction_accuracy, 1) }}%</span>
+                            <span class="info-value">{{ number_format($modelData['prediction_accuracy'] ?? 0, 1) }}%</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Total Alumni:</span>
-                            <span class="info-value">{{ number_format($modelData->total_alumni) }}</span>
+                            <span class="info-value">{{ number_format($modelData['total_alumni'] ?? 0) }}</span>
                         </div>
                     </div>
                 </div>
@@ -49,11 +49,11 @@
                     <div class="metric-grid">
                         <div class="metric-item">
                             <span class="metric-label">RMSE</span>
-                            <span class="metric-value">{{ number_format($modelData->rmse, 4) }}</span>
+                            <span class="metric-value">{{ number_format($modelData['rmse'] ?? 0, 4) }}</span>
                         </div>
                         <div class="metric-item">
                             <span class="metric-label">MAE</span>
-                            <span class="metric-value">{{ number_format($modelData->mae, 4) }}</span>
+                            <span class="metric-value">{{ number_format($modelData['mae'] ?? 0, 4) }}</span>
                         </div>
                         {{-- <div class="metric-item">
                             <span class="metric-label">R²</span>
@@ -61,7 +61,7 @@
                         </div> --}}
                         <div class="metric-item">
                             <span class="metric-label">AIC</span>
-                            <span class="metric-value">{{ number_format($modelData->aic, 1) }}</span>
+                            <span class="metric-value">{{ number_format($modelData['aic'] ?? 0, 1) }}</span>
                         </div>
                     </div>
                 </div>
@@ -75,14 +75,14 @@
                         <div class="summary-item">
                             <i class="fas fa-arrow-trend-up text-success"></i>
                             <div>
-                                <h4>{{ number_format($modelData->predicted_rate, 1) }}%</h4>
+                                <h4>{{ number_format($modelData['predicted_rate'] ?? 0, 1) }}%</h4>
                                 <span>Predicted Employment Rate</span>
                             </div>
                         </div>
                         <div class="summary-item">
                             <i class="fas fa-plus-minus text-primary"></i>
                             <div>
-                                <h4>±{{ number_format($modelData->confidence_interval, 1) }}%</h4>
+                                <h4>±{{ number_format($modelData['confidence_interval'] ?? 0, 1) }}%</h4>
                                 <span>Confidence Interval</span>
                             </div>
                         </div>
