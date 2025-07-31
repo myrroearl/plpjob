@@ -79,19 +79,19 @@
                                 <div class="upload-item">
                                     <i class="fas fa-file-alt text-success"></i>
                                     <div class="upload-info">
-                                        <h6>{{ $upload->model_name }}</h6>
+                                        <h6>{{ $upload['model_name'] }}</h6>
                                         <div class="upload-meta">
                                             <small class="text-muted">
                                                 <i class="fas fa-calendar-alt"></i> 
-                                                {{ $upload->last_updated->format('M d, Y') }}
+                                                {{ \Carbon\Carbon::parse($upload['last_updated'])->format('M d, Y') }}
                                             </small>
                                             <small class="text-success">
                                                 <i class="fas fa-chart-line"></i> 
-                                                {{ number_format($upload->prediction_accuracy, 1) }}% accuracy
+                                                {{ number_format($upload['prediction_accuracy'], 1) }}% accuracy
                                             </small>
                                             <small class="text-primary">
                                                 <i class="fas fa-users"></i> 
-                                                {{ number_format($upload->total_alumni) }} alumni
+                                                {{ number_format($upload['total_alumni']) }} alumni
                                             </small>
                                         </div>
                                     </div>
