@@ -10,25 +10,25 @@
             <div class="col-md-3">
                 <div class="dashboard-card">
                     <h4>Total Alumni</h4>
-                    <h2>{{ number_format($modelData->total_alumni) }}</h2>
+                    <h2>{{ number_format($modelData['total_alumni'] ?? 0) }}</h2>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="dashboard-card">
                     <h4>Employment Rate</h4>
-                    <h2>{{ number_format($modelData->actual_rate, 1) }}%</h2>
+                    <h2>{{ number_format($modelData['actual_rate'] ?? 0, 1) }}%</h2>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="dashboard-card">
                     <h4>Prediction Accuracy</h4>
-                    <h2>{{ number_format($modelData->prediction_accuracy, 1) }}%</h2>
+                    <h2>{{ number_format($modelData['prediction_accuracy'] ?? 0, 1) }}%</h2>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="dashboard-card">
                     <h4>Margin of Error</h4>
-                    <h2>±{{ number_format($modelData->margin_of_error, 1) }}%</h2>
+                    <h2>±{{ number_format($modelData['margin_of_error'] ?? 0, 1) }}%</h2>
                 </div>
             </div>
         </div>
