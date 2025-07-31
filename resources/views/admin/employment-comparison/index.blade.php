@@ -17,7 +17,7 @@
                         </div>
                         <div class="stat-details">
                             <h4>Actual Rate</h4>
-                            <h2>{{ number_format($modelData->actual_rate, 1) }}%</h2>
+                            <h2>{{ number_format($modelData['actual_rate'] ?? 0, 1) }}%</h2>
                             <small class="text-success">Current Year</small>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="stat-details">
                             <h4>Predicted Rate</h4>
-                            <h2>{{ number_format($modelData->predicted_rate, 1) }}%</h2>
+                            <h2>{{ number_format($modelData['predicted_rate'] ?? 0, 1) }}%</h2>
                             <small class="text-primary">AI Forecast</small>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="stat-details">
                             <h4>Accuracy</h4>
-                            <h2>{{ number_format($modelData->prediction_accuracy, 1) }}%</h2>
+                            <h2>{{ number_format($modelData['prediction_accuracy'] ?? 0, 1) }}%</h2>
                             <small class="text-info">Prediction Accuracy</small>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                         </div>
                         <div class="stat-details">
                             <h4>Margin of Error</h4>
-                            <h2>{{ number_format($modelData->margin_of_error, 1) }}%</h2>
+                            <h2>{{ number_format($modelData['margin_of_error'] ?? 0, 1) }}%</h2>
                             <small class="text-warning">Average Deviation</small>
                         </div>
                     </div>
