@@ -36,6 +36,11 @@ class SupabaseStorageService
             $fileContent = file_get_contents($filePath);
             $mimeType = mime_content_type($filePath);
 
+            // Delete the file first if it exists (to allow overwrite)
+            if ($this->fileExists($fileName)) {
+                $this->deleteFile($fileName);
+            }
+
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->supabaseKey,
                 'Content-Type' => $mimeType,
@@ -46,7 +51,6 @@ class SupabaseStorageService
 
             if ($response->successful()) {
                 $publicUrl = "{$this->supabaseUrl}/storage/v1/object/public/{$this->bucket}/{$fileName}";
-                
                 return [
                     'success' => true,
                     'url' => $publicUrl,
@@ -132,6 +136,38 @@ class SupabaseStorageService
 
             return $response->successful();
         } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Download a file from Supabase Storage
+     *
+     * @param string $fileName Name of the file to download
+     * @return string|false Returns file content as string, or false on failure
+     */
+    public function downloadFile($fileName)
+    {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->supabaseKey,
+            ])->get("{$this->supabaseUrl}/storage/v1/object/{$this->bucket}/{$fileName}");
+
+            if ($response->successful()) {
+                return $response->body();
+            } else {
+                \Log::error('Supabase download failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'file' => $fileName
+                ]);
+                return false;
+            }
+        } catch (\Exception $e) {
+            \Log::error('Supabase download exception', [
+                'message' => $e->getMessage(),
+                'file' => $fileName
+            ]);
             return false;
         }
     }
