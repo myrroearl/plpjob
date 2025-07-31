@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AlumniPredictionModel;
 use App\Services\SupabaseStorageService;
+use App\Services\SupabaseDatabaseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -14,10 +15,18 @@ class ModelUploadController extends Controller
 {
     public function index()
     {
-        $recentUploads = AlumniPredictionModel::select('model_name', 'last_updated', 'prediction_accuracy', 'total_alumni')
-            ->orderBy('last_updated', 'desc')
-            ->limit(5)
-            ->get();
+        // Initialize Supabase database service
+        $supabaseDbService = new SupabaseDatabaseService();
+        
+        // Get recent uploads from Supabase
+        $recentUploads = $supabaseDbService->getRecentUploads(5);
+        
+        // Convert to collection for compatibility with view
+        if ($recentUploads === false) {
+            $recentUploads = collect([]);
+        } else {
+            $recentUploads = collect($recentUploads);
+        }
 
         return view('admin.model-upload.index', compact('recentUploads'));
     }
@@ -35,8 +44,9 @@ class ModelUploadController extends Controller
                 'fileName' => $request->file('modelFile')->getClientOriginalName()
             ]);
 
-            // Initialize Supabase service
+            // Initialize Supabase services
             $supabaseService = new SupabaseStorageService();
+            $supabaseDbService = new SupabaseDatabaseService();
 
             // Create temporary directory for CSV processing
             $tempDir = sys_get_temp_dir() . '/model_upload_' . uniqid();
@@ -88,14 +98,14 @@ class ModelUploadController extends Controller
             
             $csvUrl = $csvUploadResult['url'];
 
-            // Create model record
-            \Log::info('Creating model record', [
+            // Create model record in Supabase
+            \Log::info('Creating model record in Supabase', [
                 'modelName' => $request->modelName,
                 'csvFilename' => $csvFilename,
                 'csvUrl' => $csvUrl
             ]);
             
-            $model = AlumniPredictionModel::create([
+            $modelData = [
                 'model_name' => $request->modelName,
                 'csv_filename' => $csvFilename,
                 'csv_url' => $csvUrl,
@@ -105,9 +115,15 @@ class ModelUploadController extends Controller
                 'employment_rate_comparison_image' => '',
                 'predicted_employability_by_degree_image' => '',
                 'distribution_of_predicted_employment_rates_image' => ''
-            ]);
+            ];
             
-            \Log::info('Model record created', ['modelId' => $model->id]);
+            $model = $supabaseDbService->insertAlumniPredictionModel($modelData);
+            
+            if (!$model) {
+                throw new \Exception('Failed to create model record in Supabase');
+            }
+            
+            \Log::info('Model record created in Supabase', ['modelId' => $model[0]['id'] ?? 'unknown']);
 
             // Run Python script with Supabase CSV filename
             $pythonScriptPath = public_path('assets/python/process_model.py');
@@ -165,6 +181,15 @@ class ModelUploadController extends Controller
                 File::delete($tempCsvPath);
             }
 
+            // Clean the output to remove any non-UTF-8 characters
+            $cleanOutput = '';
+            if ($output) {
+                // Remove any non-UTF-8 characters and limit length
+                $cleanOutput = mb_convert_encoding($output, 'UTF-8', 'UTF-8');
+                $cleanOutput = preg_replace('/[^\x{0009}\x{000A}\x{000D}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', '', $cleanOutput);
+                $cleanOutput = substr($cleanOutput, 0, 10000); // Limit to 10KB
+            }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Model uploaded successfully',
@@ -174,7 +199,7 @@ class ModelUploadController extends Controller
                         'filename' => $csvFilename,
                         'url' => $csvUrl
                     ],
-                    'output' => $output,
+                    'output' => $cleanOutput,
                     'uploadedFiles' => $uploadedFiles
                 ]
             ]);
