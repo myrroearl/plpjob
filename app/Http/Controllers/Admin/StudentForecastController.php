@@ -89,8 +89,8 @@ class StudentForecastController extends Controller
             }
 
             // Construct the command to run Python script
-            $command = "C:\Users\Rommel\AppData\Local\Programs\Python\Python312\python.exe " 
-                . base_path('storage/app/python/predictions.py') . " "
+            $command = "python3 " 
+                . public_path('assets/python/predictions.py') . " "
                 . escapeshellarg('modeltrained.csv') . " "  // Use the existing model file in Supabase
                 . escapeshellarg($tempDir);  // Pass temp directory for processing
 
