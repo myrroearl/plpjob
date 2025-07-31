@@ -1,7 +1,8 @@
 import sys
 import pandas as pd
 import numpy as np
-import mysql.connector
+import requests
+import json
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.seasonal import seasonal_decompose
@@ -20,7 +21,6 @@ import os
 import warnings
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-import mysql.connector
 import tempfile
 from supabase import create_client, Client
 import io
@@ -48,6 +48,54 @@ csv_filename = sys.argv[1]
 SUPABASE_URL = "https://cawdbumigiwafukejndb.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhd2RidW1pZ2l3YWZ1a2VqbmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4MzY5NDYsImV4cCI6MjA2OTQxMjk0Nn0.R0twY6a16flkMAMdh6kndykvNRIG5d2FGlOpqoxQL20"
 BUCKET_NAME = "adminfiles"
+
+# Supabase database functions
+def update_supabase_record(data):
+    """Update the latest alumni_prediction_models record in Supabase"""
+    try:
+        print(f"Attempting to update Supabase record with data: {data}")
+        
+        # Convert any numpy/pandas types to native Python types
+        clean_data = {}
+        for key, value in data.items():
+            if hasattr(value, 'item'):  # numpy scalar
+                clean_data[key] = value.item()
+            elif hasattr(value, '__float__'):  # pandas scalar
+                clean_data[key] = float(value)
+            else:
+                clean_data[key] = value
+            
+            # Convert specific fields to integers for Supabase
+            if key in ['total_alumni'] and isinstance(clean_data[key], (int, float)):
+                clean_data[key] = int(clean_data[key])
+            # Convert other numeric fields to float
+            elif key in ['prediction_accuracy', 'rmse', 'mae', 'r2', 'aic', 'confidence_interval', 'actual_rate', 'predicted_rate', 'margin_of_error'] and isinstance(clean_data[key], (int, float)):
+                clean_data[key] = float(clean_data[key])
+        
+        print(f"Cleaned data for update: {clean_data}")
+        
+        # Get the latest record ID first
+        response = supabase.table("alumni_prediction_models").select("id").order("id", desc=True).limit(1).execute()
+        
+        if not response.data:
+            print("No records found to update")
+            return False
+            
+        latest_id = response.data[0]['id']
+        print(f"Updating record with ID: {latest_id}")
+        
+        # Update the record using simple Supabase syntax
+        update_response = supabase.table("alumni_prediction_models").update(clean_data).eq("id", latest_id).execute()
+        
+        print(f"Update response: {update_response}")
+        print(f"Successfully updated record {latest_id}")
+        return True
+            
+    except Exception as e:
+        print(f"Error updating Supabase record: {e}")
+        import traceback
+        print(f"Full traceback: {traceback.format_exc()}")
+        return False
 
 # Initialize Supabase client
 try:
@@ -252,17 +300,20 @@ try:
     plt.legend(fontsize=12)
 
     # Add value labels
-    for year, row in yearly_comparison.iterrows():
-        plt.annotate(f'{row["Actual"]:.1f}', 
-                    (year.year, row["Actual"]), 
-                    textcoords="offset points", 
-                    xytext=(0,10), 
-                    ha='center')
-        plt.annotate(f'{row["Predicted"]:.1f}', 
-                    (year.year, row["Predicted"]), 
-                    textcoords="offset points", 
-                    xytext=(0,-15), 
-                    ha='center')
+    try:
+        for year, row in yearly_comparison.iterrows():
+            plt.annotate(f'{row["Actual"]:.1f}', 
+                        (year.year, row["Actual"]), 
+                        textcoords="offset points", 
+                        xytext=(0,10), 
+                        ha='center')
+            plt.annotate(f'{row["Predicted"]:.1f}', 
+                        (year.year, row["Predicted"]), 
+                        textcoords="offset points", 
+                        xytext=(0,-15), 
+                        ha='center')
+    except Exception as e:
+        print(f"Warning: Could not add value labels: {e}")
 
     plt.tight_layout()
 
@@ -342,26 +393,32 @@ try:
     plt.legend(fontsize=12)
 
     # Add value labels for actual and predicted
-    for year, row in yearly_comparison.iterrows():
-        plt.annotate(f'{row["Actual"]:.1f}', 
-                    (year.year, row["Actual"]), 
-                    textcoords="offset points", 
-                    xytext=(0,10), 
-                    ha='center')
-        plt.annotate(f'{row["Predicted"]:.1f}', 
-                    (year.year, row["Predicted"]), 
-                    textcoords="offset points", 
-                    xytext=(0,-15), 
-                    ha='center')
+    try:
+        for year, row in yearly_comparison.iterrows():
+            plt.annotate(f'{row["Actual"]:.1f}', 
+                        (year.year, row["Actual"]), 
+                        textcoords="offset points", 
+                        xytext=(0,10), 
+                        ha='center')
+            plt.annotate(f'{row["Predicted"]:.1f}', 
+                        (year.year, row["Predicted"]), 
+                        textcoords="offset points", 
+                        xytext=(0,-15), 
+                        ha='center')
+    except Exception as e:
+        print(f"Warning: Could not add value labels for actual/predicted: {e}")
     
     # Add value labels for forecast
-    for year, value in zip(forecast_dates.year, forecast_mean.values):
-        plt.annotate(f'{value:.1f}', 
-                    (year, value),
-                    textcoords="offset points", 
-                    xytext=(0,10), 
-                    ha='center',
-                    color='green')
+    try:
+        for year, value in zip(forecast_dates.year, forecast_mean.values):
+            plt.annotate(f'{value:.1f}', 
+                        (year, value),
+                        textcoords="offset points", 
+                        xytext=(0,10), 
+                        ha='center',
+                        color='green')
+    except Exception as e:
+        print(f"Warning: Could not add value labels for forecast: {e}")
 
     plt.tight_layout()
 
@@ -448,33 +505,50 @@ try:
     # Residual analysis
     residuals = ts - predictions
     
-    # Plot residual diagnostics
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
-    
-    # Residuals over time
-    ax1.plot(ts.index, residuals)
-    ax1.set_title('Residuals over Time')
-    ax1.set_xlabel('Year')
-    ax1.set_ylabel('Residual')
-    ax1.grid(True)
-    
-    # Residual histogram
-    ax2.hist(residuals, bins=20, density=True)
-    ax2.set_title('Residual Distribution')
-    ax2.set_xlabel('Residual')
-    ax2.set_ylabel('Density')
-    
-    # Q-Q plot
-    from scipy import stats
-    stats.probplot(residuals, dist="norm", plot=ax3)
-    ax3.set_title('Q-Q Plot')
-    
-    # Autocorrelation plot
-    from statsmodels.graphics.tsaplots import plot_acf
-    plot_acf(residuals, ax=ax4, lags=10)
-    ax4.set_title('Autocorrelation Plot')
-    
-    plt.tight_layout()
+    # Plot residual diagnostics with error handling
+    try:
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
+        
+        # Residuals over time
+        ax1.plot(ts.index, residuals)
+        ax1.set_title('Residuals over Time')
+        ax1.set_xlabel('Year')
+        ax1.set_ylabel('Residual')
+        ax1.grid(True)
+        
+        # Residual histogram
+        ax2.hist(residuals, bins=20, density=True)
+        ax2.set_title('Residual Distribution')
+        ax2.set_xlabel('Residual')
+        ax2.set_ylabel('Density')
+        
+        # Q-Q plot
+        try:
+            from scipy import stats
+            stats.probplot(residuals, dist="norm", plot=ax3)
+            ax3.set_title('Q-Q Plot')
+        except Exception as e:
+            print(f"Warning: Could not create Q-Q plot: {e}")
+            ax3.text(0.5, 0.5, 'Q-Q Plot\nNot Available', ha='center', va='center', transform=ax3.transAxes)
+        
+        # Autocorrelation plot
+        try:
+            from statsmodels.graphics.tsaplots import plot_acf
+            # Ensure residuals has enough data points
+            if len(residuals) > 10:
+                plot_acf(residuals, ax=ax4, lags=min(10, len(residuals)-1))
+            else:
+                ax4.text(0.5, 0.5, 'Autocorrelation Plot\nNot Enough Data', ha='center', va='center', transform=ax4.transAxes)
+            ax4.set_title('Autocorrelation Plot')
+        except Exception as e:
+            print(f"Warning: Could not create autocorrelation plot: {e}")
+            ax4.text(0.5, 0.5, 'Autocorrelation Plot\nNot Available', ha='center', va='center', transform=ax4.transAxes)
+        
+        plt.tight_layout()
+        
+    except Exception as e:
+        print(f"Warning: Could not create residual diagnostics plots: {e}")
+        plt.close('all')  # Close any open plots
    
 
     # Inside the try block, after ARIMA metrics calculation, add:
@@ -519,20 +593,26 @@ try:
         plt.legend(fontsize=12)
         
         # Add value labels
-        for year, value in zip(ts.index.year, ts.values):
-            plt.annotate(f'{value:.1f}', 
-                        (year, value), 
-                        textcoords="offset points", 
-                        xytext=(0,10), 
-                        ha='center')
+        try:
+            for year, value in zip(ts.index.year, ts.values):
+                plt.annotate(f'{value:.1f}', 
+                            (year, value), 
+                            textcoords="offset points", 
+                            xytext=(0,10), 
+                            ha='center')
+        except Exception as e:
+            print(f"Warning: Could not add value labels for time series: {e}")
         
-        for year, value in zip(forecast_years.year, lr_results['forecast']):
-            plt.annotate(f'{value:.1f}', 
-                        (year, value),
-                        textcoords="offset points", 
-                        xytext=(0,10), 
-                        ha='center',
-                        color='green')
+        try:
+            for year, value in zip(forecast_years.year, lr_results['forecast']):
+                plt.annotate(f'{value:.1f}', 
+                            (year, value),
+                            textcoords="offset points", 
+                            xytext=(0,10), 
+                            ha='center',
+                            color='green')
+        except Exception as e:
+            print(f"Warning: Could not add value labels for linear regression forecast: {e}")
         
         plt.tight_layout()
 
@@ -560,102 +640,65 @@ try:
         public_url3 = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET_NAME}/{filename3}"
         print(f"PUBLIC_URL:{filename3}:{public_url3}")
 
-        conn = mysql.connector.connect(
-            host='mainline.proxy.rlwy.net',
-            user='root',
-            password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
-            database='railway',
-            port='3306'
-        )
-        cursor = conn.cursor()
+        # Update Supabase with Linear Regression results if it's better
+        lr_update_data = {
+            'prediction_accuracy': (1 - lr_results['metrics']['mape']/100) * 100,
+            'rmse': lr_results['metrics']['rmse'],
+            'mae': lr_results['metrics']['mae'],
+            'r2': lr_results['metrics']['r2'],
+            'predicted_rate': lr_results['predictions'][-1],
+            'model_type': 'Linear Regression'
+        }
         
-        # Update the database values with Linear Regression results if it's better
-        if 'conn' in locals():
-            try:
-                cursor.execute("""
-                    UPDATE alumni_prediction_models 
-                    SET 
-                        prediction_accuracy = %s,
-                        rmse = %s,
-                        mae = %s,
-                        r2 = %s,
-                        predicted_rate = %s,
-                        model_type = 'Linear Regression'
-                    WHERE id = (SELECT MAX(id) FROM alumni_prediction_models)
-                """, (
-                    (1 - lr_results['metrics']['mape']/100) * 100,  # prediction_accuracy
-                    lr_results['metrics']['rmse'],
-                    lr_results['metrics']['mae'],
-                    lr_results['metrics']['r2'],
-                    lr_results['predictions'][-1]
-                ))
-                conn.commit()
-            except Exception as e:
-                print(f"Database error while updating Linear Regression results: {e}")
-                if conn:
-                    conn.rollback()
+        update_supabase_record(lr_update_data)
+
+        # Update Supabase database with final results
+        try:
+            update_data = {
+                'total_alumni': int(len(df_clean)),
+                'prediction_accuracy': float(yearly_comparison['Accuracy'].mean()),
+                'employment_rate_forecast_line_image': filename1,
+                'rmse': float(rmse),
+                'mae': float(mae),
+                'r2': float(r2),
+                'aic': float(aic),
+                'confidence_interval': float(conf_int.iloc[-1, 1] - conf_int.iloc[-1, 0]),
+                'actual_rate': float(yearly_comparison['Actual'].iloc[-1]),
+                'predicted_rate': float(yearly_comparison['Predicted'].iloc[-1]),
+                'margin_of_error': float(abs(yearly_comparison['Actual'].iloc[-1] - yearly_comparison['Predicted'].iloc[-1])),
+                'employment_rate_comparison_image': filename2,
+                'predicted_employability_by_degree_image': '',
+                'distribution_of_predicted_employment_rates_image': ''
+            }
+            
+            update_supabase_record(update_data)
+            print("Successfully updated Supabase database with final results")
+
+        except Exception as e:
+            print(f"Error updating Supabase database: {e}")
 
 except Exception as e:
     print(f"An error occurred: {e}")
-
-
-
-
-# Connect to the MySQL database
-try:
-    conn = mysql.connector.connect(
-        host='mainline.proxy.rlwy.net',
-        user='root',
-        password='uzTWebEtRKIvSROmBYNgcQdrelFjZDgE',
-        database='railway',
-        port='3306'
-    )
-    cursor = conn.cursor()
-
-    # Update the table name to match our Laravel migration
-    cursor.execute("""
-        UPDATE alumni_prediction_models 
-        SET 
-            total_alumni = %s,
-            prediction_accuracy = %s,
-            employment_rate_forecast_line_image = %s,
-            rmse = %s,
-            mae = %s,
-            r2 = %s,
-            aic = %s,
-            confidence_interval = %s,
-            actual_rate = %s,
-            predicted_rate = %s,
-            margin_of_error = %s,
-            employment_rate_comparison_image = %s,
-            predicted_employability_by_degree_image = %s,
-            distribution_of_predicted_employment_rates_image = %s
-        WHERE id = (SELECT MAX(id) FROM alumni_prediction_models)
-    """, (
-        len(df_clean),  # total_alumni - use cleaned data length
-        yearly_comparison['Accuracy'].mean(),  # prediction_accuracy
-        filename1,  # employment_rate_forecast_line_image
-        rmse,  # rmse
-        mae,  # mae
-        r2,  # r2
-        aic,  # aic
-        conf_int.iloc[-1, 1] - conf_int.iloc[-1, 0],  # confidence_interval
-        yearly_comparison['Actual'].iloc[-1],  # actual_rate
-        yearly_comparison['Predicted'].iloc[-1],  # predicted_rate
-        abs(yearly_comparison['Actual'].iloc[-1] - yearly_comparison['Predicted'].iloc[-1]),  # margin_of_error
-        filename2,  # employment_rate_comparison_image
-        '',  # predicted_employability_by_degree_image (placeholder)
-        ''   # distribution_of_predicted_employment_rates_image (placeholder)
-    ))
-
-    conn.commit()
-
-except Exception as e:
-    print(f"Database error: {e}")
-    if conn:
-        conn.rollback()
-finally:
-    if cursor:
-        cursor.close()
-    if conn:
-        conn.close()
+    # Try to update with basic data even if processing failed
+    try:
+        basic_update_data = {
+            'total_alumni': int(len(df_clean) if 'df_clean' in locals() else 0),
+            'prediction_accuracy': 0.0,
+            'employment_rate_forecast_line_image': '',
+            'rmse': 0.0,
+            'mae': 0.0,
+            'r2': 0.0,
+            'aic': 0.0,
+            'confidence_interval': 0.0,
+            'actual_rate': 0.0,
+            'predicted_rate': 0.0,
+            'margin_of_error': 0.0,
+            'employment_rate_comparison_image': '',
+            'predicted_employability_by_degree_image': '',
+            'distribution_of_predicted_employment_rates_image': ''
+        }
+        
+        update_supabase_record(basic_update_data)
+        print("Updated Supabase with basic data due to processing error")
+    except Exception as update_error:
+        print(f"Failed to update Supabase even with basic data: {update_error}")
