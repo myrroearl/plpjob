@@ -200,81 +200,100 @@
                                 
                                 <div class="space-y-6">
                                     <!-- Is Board Passer Toggle -->
-                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" name="is_board_passer" id="is_board_passer" 
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors duration-200 cursor-pointer" onclick="document.getElementById('is_board_passer').click()">
+                                            <div class="flex items-center">
+                                                                                            <input type="checkbox" name="is_board_passer" id="is_board_passer" 
                                                 class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                                 value="1"
-                                                {{ old('is_board_passer', auth()->user()->is_board_passer) ? 'checked' : '' }}>
-                                            <label for="is_board_passer" class="ml-2 block text-sm text-gray-700">
+                                                {{ old('is_board_passer', auth()->user()->is_board_passer) ? 'checked' : '' }}
+                                                onchange="toggleBoardExamDetails()"
+                                                aria-describedby="board_exam_info">
+                                                                                            <label for="is_board_passer" class="ml-2 block text-sm font-medium text-gray-700 cursor-pointer select-none">
                                                 Board Examination Passer
                                             </label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                @if(auth()->user()->is_board_passer)
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                        <svg class="mr-1.5 h-2 w-2 text-green-400" fill="currentColor" viewBox="0 0 8 8">
+                                                            <circle cx="4" cy="4" r="3" />
+                                                        </svg>
+                                                        Passed
+                                                    </span>
+                                                @else
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                        <svg class="mr-1.5 h-2 w-2 text-gray-400" fill="currentColor" viewBox="0 0 8 8">
+                                                            <circle cx="4" cy="4" r="3" />
+                                                        </svg>
+                                                        Not a Board Passer
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
-                                        <div class="flex items-center">
-                                            @if(auth()->user()->is_board_passer)
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    <svg class="mr-1.5 h-2 w-2 text-green-400" fill="currentColor" viewBox="0 0 8 8">
-                                                        <circle cx="4" cy="4" r="3" />
-                                                    </svg>
-                                                    Passed
-                                                </span>
-                                            @else
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                    <svg class="mr-1.5 h-2 w-2 text-gray-400" fill="currentColor" viewBox="0 0 8 8">
-                                                        <circle cx="4" cy="4" r="3" />
-                                                    </svg>
-                                                    Not a Board Passer
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <!-- Board Exam Details -->
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <!-- Board Exam Name -->
-                                        <div>
-                                            <label for="board_exam_name" class="block text-sm font-medium text-gray-700 mb-2">
-                                                Board Examination Name
-                                            </label>
-                                            <input type="text" name="board_exam_name" id="board_exam_name" 
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900
-                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                                        hover:border-blue-400 transition-colors duration-200"
-                                                value="{{ old('board_exam_name', auth()->user()->board_exam_name) }}">
-                                            @error('board_exam_name')
-                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Board Exam Year -->
-                                        <div>
-                                            <label for="board_exam_year" class="block text-sm font-medium text-gray-700 mb-2">
-                                                Year Taken
-                                            </label>
-                                            <input type="number" name="board_exam_year" id="board_exam_year" 
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900
-                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                                        hover:border-blue-400 transition-colors duration-200"
-                                                value="{{ old('board_exam_year', auth()->user()->board_exam_year) }}">
-                                            @error('board_exam_year')
-                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                            @enderror
+                                        
+                                        <!-- Info text -->
+                                        <div id="board_exam_info" class="text-sm text-blue-600 bg-blue-50 border border-blue-200 rounded-lg p-3 transition-all duration-300 ease-in-out {{ auth()->user()->is_board_passer ? '' : 'hidden opacity-0' }}" style="{{ auth()->user()->is_board_passer ? 'opacity: 1;' : 'opacity: 0;' }}">
+                                            <div class="flex items-start">
+                                                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span>Please provide your board examination details below. All fields marked with <span class="text-red-500 font-medium">*</span> are required.</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- License Number -->
-                                    <div>
-                                        <label for="license_number" class="block text-sm font-medium text-gray-700 mb-2">
-                                            License Number
-                                        </label>
-                                        <input type="text" name="license_number" id="license_number" 
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900
-                                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                                    hover:border-blue-400 transition-colors duration-200"
-                                            value="{{ old('license_number', auth()->user()->license_number) }}">
-                                        @error('license_number')
-                                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                        @enderror
+                                                                        <!-- Board Exam Details -->
+                                    <div id="board_exam_details" class="space-y-6 transition-all duration-300 ease-in-out {{ auth()->user()->is_board_passer ? '' : 'hidden opacity-0' }}" style="{{ auth()->user()->is_board_passer ? 'opacity: 1;' : 'opacity: 0;' }}">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <!-- Board Exam Name -->
+                                            <div>
+                                                <label for="board_exam_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                                    Board Examination Name
+                                                    <span class="text-red-500">*</span>
+                                                </label>
+                                                <input type="text" name="board_exam_name" id="board_exam_name" 
+                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900
+                                                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                            hover:border-blue-400 transition-colors duration-200"
+                                                    value="{{ old('board_exam_name', auth()->user()->board_exam_name) }}">
+                                                @error('board_exam_name')
+                                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Board Exam Year -->
+                                            <div>
+                                                <label for="board_exam_year" class="block text-sm font-medium text-gray-700 mb-2">
+                                                    Year Taken
+                                                    <span class="text-red-500">*</span>
+                                                </label>
+                                                <input type="number" name="board_exam_year" id="board_exam_year" 
+                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900
+                                                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                            hover:border-blue-400 transition-colors duration-200"
+                                                    value="{{ old('board_exam_year', auth()->user()->board_exam_year) }}">
+                                                @error('board_exam_year')
+                                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <!-- License Number -->
+                                        <div>
+                                            <label for="license_number" class="block text-sm font-medium text-gray-700 mb-2">
+                                                License Number
+                                                <span class="text-red-500">*</span>
+                                            </label>
+                                            <input type="text" name="license_number" id="license_number" 
+                                                class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        hover:border-blue-400 transition-colors duration-200"
+                                                    value="{{ old('license_number', auth()->user()->license_number) }}">
+                                            @error('license_number')
+                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -377,11 +396,54 @@
     </div>
 
     @push('scripts')
+    <style>
+        #board_exam_details, #board_exam_info {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        #board_exam_details.hidden, #board_exam_info.hidden {
+            display: none;
+        }
+    </style>
     <script>
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
             const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
             input.setAttribute('type', type);
+        }
+
+        function toggleBoardExamDetails() {
+            const checkbox = document.getElementById('is_board_passer');
+            const detailsContainer = document.getElementById('board_exam_details');
+            const infoText = document.getElementById('board_exam_info');
+            const boardExamName = document.getElementById('board_exam_name');
+            const boardExamYear = document.getElementById('board_exam_year');
+            const licenseNumber = document.getElementById('license_number');
+            
+            if (checkbox.checked) {
+                // Show the details and info text with smooth animation
+                detailsContainer.classList.remove('hidden');
+                infoText.classList.remove('hidden');
+                // Use setTimeout to ensure the element is visible before adding opacity
+                setTimeout(() => {
+                    detailsContainer.style.opacity = '1';
+                    infoText.style.opacity = '1';
+                }, 10);
+            } else {
+                // Hide the details and info text with smooth animation
+                detailsContainer.style.opacity = '0';
+                infoText.style.opacity = '0';
+                // Wait for the fade out animation to complete before hiding
+                setTimeout(() => {
+                    detailsContainer.classList.add('hidden');
+                    infoText.classList.add('hidden');
+                }, 300);
+                
+                // Clear the form fields when hiding
+                boardExamName.value = '';
+                boardExamYear.value = '';
+                licenseNumber.value = '';
+            }
         }
 
         // Add smooth fade-out for success message
@@ -393,6 +455,44 @@
                     successMessage.style.opacity = '0';
                     setTimeout(() => successMessage.remove(), 1000);
                 }, 3000);
+            }
+
+            // Initialize board exam details visibility on page load
+            const checkbox = document.getElementById('is_board_passer');
+            if (checkbox) {
+                toggleBoardExamDetails();
+            }
+        });
+
+        // Form validation for board exam details
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const checkbox = document.getElementById('is_board_passer');
+            const boardExamName = document.getElementById('board_exam_name');
+            const boardExamYear = document.getElementById('board_exam_year');
+            const licenseNumber = document.getElementById('license_number');
+            
+            if (checkbox.checked) {
+                // Check if required fields are filled
+                if (!boardExamName.value.trim()) {
+                    e.preventDefault();
+                    alert('Please enter the Board Examination Name.');
+                    boardExamName.focus();
+                    return false;
+                }
+                
+                if (!boardExamYear.value.trim()) {
+                    e.preventDefault();
+                    alert('Please enter the Year Taken.');
+                    boardExamYear.focus();
+                    return false;
+                }
+                
+                if (!licenseNumber.value.trim()) {
+                    e.preventDefault();
+                    alert('Please enter the License Number.');
+                    licenseNumber.focus();
+                    return false;
+                }
             }
         });
     </script>
