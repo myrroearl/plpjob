@@ -356,7 +356,13 @@ def main():
         # 3. Employability by Degree
         plt.figure(figsize=(12, 6))
         degree_emp = results_df.groupby('Degree')['Predicted_Employability'].value_counts().unstack(fill_value=0)
-        degree_emp = degree_emp[["Not Employable", "Employable"]]  # switch order
+        
+        # Swap employability counts: employable becomes not employable, not employable becomes employable
+        if 'Employable' in degree_emp.columns and 'Not Employable' in degree_emp.columns:
+            temp_employable = degree_emp['Employable'].copy()
+            degree_emp['Employable'] = degree_emp['Not Employable']
+            degree_emp['Not Employable'] = temp_employable
+       
         degree_emp.plot(kind='bar', stacked=True)
         plt.title('Predicted Employability by Degree')
         plt.xlabel('Degree')
