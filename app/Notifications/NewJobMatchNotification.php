@@ -45,4 +45,14 @@ class NewJobMatchNotification extends Notification implements ShouldQueue
             'type' => 'job_match'
         ];
     }
+
+    public function toDatabase($notifiable)
+    {
+        return [
+            'job_id' => $this->job->id,
+            'title' => $this->job->title,
+            'company' => $this->job->company->name,
+            'type' => 'job_match'
+        ];
+    }
 } 
