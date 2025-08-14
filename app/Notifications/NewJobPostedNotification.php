@@ -66,6 +66,8 @@ class NewJobPostedNotification extends Notification implements ShouldQueue
             'job_id' => $this->job->id,
             'title' => $this->job->title,
             'message' => "A new job opportunity has been posted: {$this->job->title} at {$this->job->company->name}",
+            'company' => $this->job->company->name,
+            'type' => 'new_job_posted'
         ];
     }
 
