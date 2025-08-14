@@ -41,7 +41,11 @@
 
                     <!-- Notifications List -->
                     @forelse($notifications as $notification)
-                        <div class="mb-4 p-4 rounded-lg {{ $notification->read_at ? 'bg-gray-50' : 'bg-blue-50 border-l-4 border-blue-500' }}">
+                        @if(isset($notification->data['job_id']))
+                            <a href="{{ route('jobs.show', $notification->data['job_id']) }}" class="block">
+                        @endif
+                        
+                        <div class="mb-4 p-4 rounded-lg {{ $notification->read_at ? 'bg-gray-50' : 'bg-blue-50 border-l-4 border-blue-500' }} {{ isset($notification->data['job_id']) ? 'hover:bg-gray-100 cursor-pointer transition-colors duration-200' : '' }}">
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
                                     <div class="flex items-center mb-2">
@@ -57,7 +61,11 @@
                                         {{ $notification->data['message'] ?? '' }}
                                     </p>
 
-                                    @if(isset($notification->data['action_url']))
+                                    @if(isset($notification->data['job_id']))
+                                        <span class="inline-block mt-2 text-sm text-blue-600 font-medium">
+                                            Click to view job details →
+                                        </span>
+                                    @elseif(isset($notification->data['action_url']))
                                         <a href="{{ $notification->data['action_url'] }}" 
                                            class="inline-block mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium">
                                             View Details →
@@ -89,6 +97,10 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        @if(isset($notification->data['job_id']))
+                            </a>
+                        @endif
                     @empty
                         <div class="text-center py-12">
                             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -144,6 +156,13 @@
                     }
                 });
             }
+        });
+
+        // Prevent form clicks from triggering the notification link
+        document.querySelectorAll('form button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
         });
     </script>
     @endpush
