@@ -740,3 +740,130 @@ body {
 .dataTables_length select {
   padding: .375rem 2.25rem .375rem .75rem;
 }
+
+
+/* Tab Styles for Model Upload */
+.nav-tabs {
+  border-bottom: 2px solid #e9ecef;
+  margin-bottom: 1.5rem;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #6c757d;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: transparent;
+  color: var(--primary-green);
+  background-color: rgba(46, 125, 50, 0.05);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--primary-green);
+  background-color: transparent;
+  border-color: transparent transparent var(--primary-green) transparent;
+  font-weight: 600;
+}
+
+.nav-tabs .nav-link i {
+  margin-right: 0.5rem;
+}
+
+/* Upload Area Drag Over Effect */
+.upload-area.drag-over {
+  border-color: var(--primary-green) !important;
+  background-color: rgba(46, 125, 50, 0.05) !important;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
+.upload-area.drag-over .upload-content {
+  color: var(--primary-green);
+}
+
+/* Add Data Form Specific Styles */
+.add-data-form .upload-area {
+  border: 2px dashed #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.add-data-form .upload-area:hover {
+  border-color: #0056b3;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.add-data-form .upload-area.drag-over {
+  border-color: #007bff !important;
+  background-color: rgba(0, 123, 255, 0.1) !important;
+}
+
+/* Progress Bar Animation */
+.progress-bar {
+  transition: width 0.3s ease;
+}
+
+/* Alert Styles */
+.alert {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border-left: 4px solid #28a745;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-left: 4px solid #dc3545;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border-left: 4px solid #17a2b8;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border-left: 4px solid #ffc107;
+}
+
+/* File Details Styling */
+.file-details {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.selected-file {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Tab Content Animation */
+.tab-pane {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
