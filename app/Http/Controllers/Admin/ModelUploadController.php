@@ -216,4 +216,170 @@ class ModelUploadController extends Controller
             ]);
         }
     }
+
+    public function addData(Request $request)
+    {
+        try {
+            \Log::info('Add data request received', [
+                'hasFile' => $request->hasFile('dataFile'),
+                'allFiles' => $request->allFiles(),
+                'allInput' => $request->all()
+            ]);
+
+            $request->validate([
+                'dataFile' => 'required|file|mimes:csv,xlsx,xls|max:10240'
+            ]);
+
+            \Log::info('Add data to existing model started', [
+                'fileName' => $request->file('dataFile')->getClientOriginalName(),
+                'fileSize' => $request->file('dataFile')->getSize(),
+                'mimeType' => $request->file('dataFile')->getMimeType()
+            ]);
+
+            // Initialize Supabase services
+            $supabaseService = new SupabaseStorageService();
+            $supabaseDbService = new SupabaseDatabaseService();
+
+            // Get the latest model from Supabase
+            $latestModel = $supabaseDbService->getLatestModel();
+            if (!$latestModel) {
+                throw new \Exception('No existing model found. Please upload a model first.');
+            }
+
+            \Log::info('Latest model found', [
+                'modelId' => $latestModel['id'],
+                'modelName' => $latestModel['model_name'],
+                'csvFilename' => $latestModel['csv_filename']
+            ]);
+
+            // Create temporary directory for processing
+            $tempDir = sys_get_temp_dir() . '/add_data_' . uniqid();
+            if (!File::exists($tempDir)) {
+                File::makeDirectory($tempDir, 0755, true, true);
+            }
+
+            $file = $request->file('dataFile');
+            $tempNewDataPath = $tempDir . '/new_data.csv';
+
+            // Convert Excel to CSV if needed
+            if ($file->getClientMimeType() !== 'text/csv') {
+                $spreadsheet = IOFactory::load($file->getPathname());
+                $writer = IOFactory::createWriter($spreadsheet, 'Csv');
+                $writer->save($tempNewDataPath);
+            } else {
+                $file->move($tempDir, 'new_data.csv');
+            }
+
+            // Run Python script to add data to existing CSV
+            $pythonScriptPath = public_path('assets/python/add_data_to_model.py');
+            
+            \Log::info('Running Python script to add data', [
+                'scriptPath' => $pythonScriptPath,
+                'existingCsvFilename' => $latestModel['csv_filename'],
+                'newDataPath' => $tempNewDataPath
+            ]);
+            
+            // Construct the command to run Python script
+            $command = "python3 " . escapeshellarg($pythonScriptPath) . " " . escapeshellarg($latestModel['csv_filename']) . " " . escapeshellarg($tempNewDataPath);
+            
+            \Log::info('Python command', ['command' => $command]);
+            
+            $output = shell_exec($command);
+            
+            \Log::info('Python script output', ['output' => $output]);
+
+            // Parse the output to find the updated CSV file
+            $updatedCsvPath = null;
+            $lines = explode("\n", $output);
+            
+            foreach ($lines as $line) {
+                if (strpos($line, 'UPDATED_CSV:') === 0) {
+                    $parts = explode(':', $line, 2);
+                    if (count($parts) === 2) {
+                        $updatedCsvPath = $parts[1];
+                        break;
+                    }
+                }
+            }
+
+            \Log::info('Python script parsing', [
+                'output_lines' => count($lines),
+                'updatedCsvPath' => $updatedCsvPath,
+                'file_exists' => $updatedCsvPath ? file_exists($updatedCsvPath) : false
+            ]);
+
+            if (!$updatedCsvPath || !file_exists($updatedCsvPath)) {
+                \Log::error('Failed to generate updated CSV file', [
+                    'output' => $output,
+                    'updatedCsvPath' => $updatedCsvPath
+                ]);
+                throw new \Exception('Failed to generate updated CSV file. Check logs for details.');
+            }
+
+            // Upload updated CSV to Supabase (overwrite existing)
+            $csvUploadResult = $supabaseService->uploadFromTemp($updatedCsvPath, $latestModel['csv_filename']);
+            
+            if (!$csvUploadResult) {
+                \Log::error('Updated CSV upload failed', [
+                    'tempPath' => $updatedCsvPath,
+                    'filename' => $latestModel['csv_filename']
+                ]);
+                throw new \Exception('Failed to upload updated CSV file to Supabase');
+            }
+            
+            \Log::info('Updated CSV upload successful', [
+                'filename' => $latestModel['csv_filename'],
+                'url' => $csvUploadResult['url']
+            ]);
+
+            // Update the model record with new data count
+            $updateData = [
+                'total_alumni' => 0, // Will be updated by Python script
+                'last_updated' => now()->toISOString()
+            ];
+            
+            $supabaseDbService->updateAlumniPredictionModel($latestModel['id'], $updateData);
+
+            // Clean up temporary files
+            if (File::exists($tempDir)) {
+                File::deleteDirectory($tempDir);
+            }
+            
+            if (File::exists($updatedCsvPath)) {
+                unlink($updatedCsvPath);
+            }
+
+            // Clean the output to remove any non-UTF-8 characters
+            $cleanOutput = '';
+            if ($output) {
+                $cleanOutput = mb_convert_encoding($output, 'UTF-8', 'UTF-8');
+                $cleanOutput = preg_replace('/[^\x{0009}\x{000A}\x{000D}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', '', $cleanOutput);
+                $cleanOutput = substr($cleanOutput, 0, 10000);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data added to existing model successfully',
+                'data' => [
+                    'modelName' => $latestModel['model_name'],
+                    'updatedCsvFile' => [
+                        'filename' => $latestModel['csv_filename'],
+                        'url' => $csvUploadResult['url']
+                    ],
+                    'output' => $cleanOutput
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Add data error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
 }
