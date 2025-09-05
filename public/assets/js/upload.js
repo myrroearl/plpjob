@@ -100,15 +100,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show success message using SweetAlert2
                 Swal.fire({
                     title: 'Success!',
-                    text: result.message,
+                    text: result.message + ' Page will refresh in 3 seconds to show updated data...',
                     icon: 'success',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    timer: 3000,
+                    timerProgressBar: true
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirect to the index page using Laravel's route
-                        window.location.href = uploadForm.action;
-                    }
+                    // Always refresh the page after success
+                    window.location.reload();
                 });
+                
+                // Backup refresh after 4 seconds
+                setTimeout(() => {
+                    window.location.reload();
+                }, 4000);
             } else {
                 throw new Error(result.message || 'Unknown error occurred');
             }
