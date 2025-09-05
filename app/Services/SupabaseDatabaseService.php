@@ -212,4 +212,64 @@ class SupabaseDatabaseService
             return false;
         }
     }
+
+    /**
+     * Get the latest model (alias for getLatestAlumniPredictionModel)
+     *
+     * @return array|false
+     */
+    public function getLatestModel()
+    {
+        return $this->getLatestAlumniPredictionModel();
+    }
+
+    /**
+     * Update a specific alumni_prediction_models record by ID
+     *
+     * @param int $id
+     * @param array $data
+     * @return array|false
+     */
+    public function updateAlumniPredictionModel($id, $data)
+    {
+        try {
+            $response = Http::withHeaders([
+                'apikey' => $this->supabaseKey,
+                'Authorization' => 'Bearer ' . $this->supabaseKey,
+                'Content-Type' => 'application/json',
+                'Prefer' => 'return=representation'
+            ])->patch(
+                "{$this->supabaseUrl}/rest/v1/alumni_prediction_models",
+                $data,
+                [
+                    'id' => 'eq.' . $id
+                ]
+            );
+
+            if ($response->successful()) {
+                $result = $response->json();
+                Log::info('Supabase update by ID successful', [
+                    'id' => $id,
+                    'data' => $data,
+                    'result' => $result
+                ]);
+                return $result;
+            } else {
+                Log::error('Supabase update by ID failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'id' => $id,
+                    'data' => $data
+                ]);
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::error('Supabase update by ID exception', [
+                'message' => $e->getMessage(),
+                'id' => $id,
+                'data' => $data
+            ]);
+            return false;
+        }
+    }
 } 
