@@ -135,7 +135,84 @@ class SupabaseDatabaseService
         }
     }
 
-    
+    /**
+     * Get the most recent alumni_prediction_models record
+     *
+     * @return array|false
+     */
+    public function getLatestAlumniPredictionModel()
+    {
+        try {
+            $response = Http::withHeaders([
+                'apikey' => $this->supabaseKey,
+                'Authorization' => 'Bearer ' . $this->supabaseKey,
+                'Content-Type' => 'application/json'
+            ])->get(
+                "{$this->supabaseUrl}/rest/v1/alumni_prediction_models",
+                [
+                    'select' => '*',
+                    'order' => 'id.desc',
+                    'limit' => 1
+                ]
+            );
+
+            if ($response->successful()) {
+                $result = $response->json();
+                return !empty($result) ? $result[0] : false;
+            } else {
+                Log::error('Supabase get latest failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::error('Supabase get latest exception', [
+                'message' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Get recent uploads for display
+     *
+     * @param int $limit
+     * @return array|false
+     */
+    public function getRecentUploads($limit = 5)
+    {
+        try {
+            $response = Http::withHeaders([
+                'apikey' => $this->supabaseKey,
+                'Authorization' => 'Bearer ' . $this->supabaseKey,
+                'Content-Type' => 'application/json'
+            ])->get(
+                "{$this->supabaseUrl}/rest/v1/alumni_prediction_models",
+                [
+                    'select' => 'model_name,last_updated,prediction_accuracy,total_alumni',
+                    'order' => 'last_updated.desc',
+                    'limit' => $limit
+                ]
+            );
+
+            if ($response->successful()) {
+                return $response->json();
+            } else {
+                Log::error('Supabase get recent uploads failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::error('Supabase get recent uploads exception', [
+                'message' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
+
     /**
      * Get the latest model (alias for getLatestAlumniPredictionModel)
      *
