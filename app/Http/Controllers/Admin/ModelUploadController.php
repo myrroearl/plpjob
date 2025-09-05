@@ -293,14 +293,16 @@ class ModelUploadController extends Controller
             $lines = explode("\n", $output);
             
             foreach ($lines as $line) {
+                $line = trim($line); // clean up \r, \n, spaces
                 if (strpos($line, 'UPDATED_CSV:') === 0) {
                     $parts = explode(':', $line, 2);
                     if (count($parts) === 2) {
-                        $updatedCsvPath = $parts[1];
+                        $updatedCsvPath = trim($parts[1]); // make sure no hidden chars
                         break;
                     }
                 }
             }
+
 
             \Log::info('Python script parsing', [
                 'output_lines' => count($lines),
