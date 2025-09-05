@@ -90,6 +90,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/admindashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
         Route::get('/model-upload', [ModelUploadController::class, 'index'])->name('model-upload.index');
         Route::post('/model-upload', [ModelUploadController::class, 'store'])->name('model-upload.store');
+        Route::post('/model-upload/add-data', [ModelUploadController::class, 'addData'])->name('model-upload.add-data');
 
         // Companies Routes
         Route::get('/companies', [AdminCompanyController::class, 'index'])->name('companies.index');
