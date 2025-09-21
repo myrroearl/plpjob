@@ -11,9 +11,14 @@
                     <i class="fas fa-building me-1"></i>
                     Manage Companies' Partnerships
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createCompanyModal">
-                    <i class="fas fa-plus"></i> Add Company
-                </button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createCompanyModal">
+                        <i class="fas fa-plus"></i> Add Company
+                    </button>
+                    <a href="{{ route('admin.reports.print-companies') }}" class="btn btn-success btn-sm" target="_blank">
+                        <i class="fas fa-print"></i> Print Report
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 @if(session('success'))
