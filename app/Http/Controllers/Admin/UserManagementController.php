@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\File;
 
 class UserManagementController extends Controller
 {
@@ -121,7 +124,7 @@ class UserManagementController extends Controller
     {
         try {
             $validated = $request->validate([
-                'id' => 'required|unique:users,id',
+                'id' => 'required|unique:users,student_id',
                 'first_name' => 'required|string|max:100',
                 'middle_name' => 'nullable|string|max:100',
                 'last_name' => 'required|string|max:100',
@@ -141,7 +144,7 @@ class UserManagementController extends Controller
 
             // Create user with generated credentials and calculated age
             $user = User::create([
-                'id' => $validated['id'],
+                'student_id' => $validated['id'],
                 'first_name' => $validated['first_name'],
                 'middle_name' => $validated['middle_name'],
                 'last_name' => $validated['last_name'],
@@ -170,7 +173,7 @@ class UserManagementController extends Controller
     {
         try {
             $validated = $request->validate([
-                'id' => 'required|unique:users,id,' . $user->id,
+                'id' => 'required|unique:users,student_id,' . $user->id,
                 'first_name' => 'required|string|max:100',
                 'middle_name' => 'required|string|max:100',
                 'last_name' => 'required|string|max:100',
@@ -180,8 +183,8 @@ class UserManagementController extends Controller
             ]);
 
             // If the ID is changed, update it
-            if ($user->id !== $validated['id']) {
-                $user->id = $validated['id'];
+            if ($user->student_id !== $validated['id']) {
+                $user->student_id = $validated['id'];
             }
 
             // Generate new password if birthday is changed
@@ -215,6 +218,221 @@ class UserManagementController extends Controller
         } catch (\Exception $e) {
             Log::error('User view error: ' . $e->getMessage());
             return back()->with('error', 'Error loading user details: ' . $e->getMessage());
+        }
+    }
+
+    public function uploadCsv(Request $request)
+    {
+        try {
+            $request->validate([
+                'csvFile' => 'required|file|mimes:csv,xlsx,xls|max:10240'
+            ]);
+
+            \Log::info('CSV upload started', [
+                'fileName' => $request->file('csvFile')->getClientOriginalName(),
+                'fileSize' => $request->file('csvFile')->getSize()
+            ]);
+
+            // Create temporary directory for CSV processing
+            $tempDir = sys_get_temp_dir() . '/user_csv_upload_' . uniqid();
+            if (!File::exists($tempDir)) {
+                File::makeDirectory($tempDir, 0755, true, true);
+            }
+
+            $file = $request->file('csvFile');
+            $tempCsvPath = $tempDir . '/users.csv';
+
+            // Convert Excel to CSV if needed
+            if ($file->getClientMimeType() !== 'text/csv') {
+                $spreadsheet = IOFactory::load($file->getPathname());
+                $writer = IOFactory::createWriter($spreadsheet, 'Csv');
+                $writer->save($tempCsvPath);
+            } else {
+                $file->move($tempDir, 'users.csv');
+            }
+
+            // Read CSV file
+            $csvData = [];
+            if (($handle = fopen($tempCsvPath, 'r')) !== FALSE) {
+                $header = fgetcsv($handle); // Skip header row
+                \Log::info('CSV Header', ['header' => $header]);
+                
+                $rowCount = 0;
+                while (($data = fgetcsv($handle)) !== FALSE) {
+                    $csvData[] = $data;
+                    $rowCount++;
+                }
+                fclose($handle);
+                
+                \Log::info('CSV Data loaded', ['rowCount' => $rowCount]);
+            } else {
+                throw new \Exception('Could not read CSV file');
+            }
+
+            // Column mapping from CSV headers to database columns
+            $columnMapping = [
+                'ID Number' => 'id',
+                'First Name' => 'first_name',
+                'Middle Name' => 'middle_name',
+                'Last Name' => 'last_name',
+                'Degree' => 'degree_name',
+                'Birthday' => 'birthday',
+                'Email' => 'email'
+            ];
+
+            // Start database transaction
+            DB::beginTransaction();
+
+            try {
+                $insertedCount = 0;
+                $errorCount = 0;
+                $errors = [];
+                $generatedCredentials = [];
+
+                // Process each row
+                foreach ($csvData as $rowIndex => $row) {
+                    try {
+                        $userData = [];
+                        
+                        // Map CSV columns to database columns
+                        foreach ($columnMapping as $csvColumn => $dbColumn) {
+                            $columnIndex = array_search($csvColumn, $header);
+                            if ($columnIndex !== false && isset($row[$columnIndex])) {
+                                $value = trim($row[$columnIndex]);
+                                
+                                // Handle empty values
+                                if ($value === '' || $value === null) {
+                                    $userData[$dbColumn] = null;
+                                    continue;
+                                }
+                                
+                                $userData[$dbColumn] = $value;
+                            }
+                        }
+
+                        // Validate required fields
+                        if (empty($userData['id']) || empty($userData['first_name']) || 
+                            empty($userData['last_name']) || empty($userData['email']) || 
+                            empty($userData['degree_name']) || empty($userData['birthday'])) {
+                            $errors[] = "Row " . ($rowIndex + 2) . ": Missing required fields (ID Number, First Name, Last Name, Email, Degree, Birthday)";
+                            $errorCount++;
+                            continue;
+                        }
+
+                        // Check if user already exists
+                        if (User::where('student_id', $userData['id'])->exists()) {
+                            $errors[] = "Row " . ($rowIndex + 2) . ": User with ID {$userData['id']} already exists";
+                            $errorCount++;
+                            continue;
+                        }
+
+                        if (User::where('email', $userData['email'])->exists()) {
+                            $errors[] = "Row " . ($rowIndex + 2) . ": User with email {$userData['email']} already exists";
+                            $errorCount++;
+                            continue;
+                        }
+
+                        // Generate username and password from ID and birthday
+                        // Handle different date formats (DD/MM/YYYY or YYYY-MM-DD)
+                        $birthdayStr = $userData['birthday'];
+                        if (strpos($birthdayStr, '/') !== false) {
+                            // Convert DD/MM/YYYY to YYYY-MM-DD
+                            $dateParts = explode('/', $birthdayStr);
+                            if (count($dateParts) === 3) {
+                                $birthdayStr = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+                            }
+                        }
+                        
+                        $birthday = new \DateTime($birthdayStr);
+                        $username = $userData['id'];
+                        $password = $username . $birthday->format('m/d/y');
+
+                        // Calculate age
+                        $today = new \DateTime();
+                        $age = $birthday->diff($today)->y;
+
+                        // Create user with generated credentials and calculated age
+                        $user = User::create([
+                            'student_id' => $userData['id'],
+                            'first_name' => $userData['first_name'],
+                            'middle_name' => $userData['middle_name'],
+                            'last_name' => $userData['last_name'],
+                            'email' => $userData['email'],
+                            'password' => $password,
+                            'degree_name' => $userData['degree_name'],
+                            'age' => $age,
+                            'role' => 'user' // Default role
+                        ]);
+
+                        $insertedCount++;
+                        $generatedCredentials[] = [
+                            'id' => $userData['id'],
+                            'name' => $userData['first_name'] . ' ' . $userData['last_name'],
+                            'username' => $username,
+                            'password' => $password
+                        ];
+
+                        // Log progress every 50 records
+                        if ($insertedCount % 50 === 0) {
+                            \Log::info('User CSV upload progress', ['inserted' => $insertedCount]);
+                        }
+
+                    } catch (\Exception $e) {
+                        $errors[] = "Row " . ($rowIndex + 2) . ": " . $e->getMessage();
+                        $errorCount++;
+                        \Log::error('Error processing user row', [
+                            'rowIndex' => $rowIndex + 2,
+                            'error' => $e->getMessage()
+                        ]);
+                    }
+                }
+
+                // Commit transaction
+                DB::commit();
+
+                // Clean up temporary files
+                if (File::exists($tempDir)) {
+                    File::deleteDirectory($tempDir);
+                }
+
+                \Log::info('User CSV upload completed', [
+                    'inserted' => $insertedCount,
+                    'errors' => $errorCount,
+                    'totalRows' => count($csvData)
+                ]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Users uploaded successfully. {$insertedCount} users created, {$errorCount} errors.",
+                    'data' => [
+                        'insertedCount' => $insertedCount,
+                        'errorCount' => $errorCount,
+                        'totalRows' => count($csvData),
+                        'errors' => $errors,
+                        'generatedCredentials' => $generatedCredentials
+                    ]
+                ]);
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw $e;
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('User CSV upload error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            // Clean up temporary files
+            if (isset($tempDir) && File::exists($tempDir)) {
+                File::deleteDirectory($tempDir);
+            }
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to upload users: ' . $e->getMessage()
+            ], 400);
         }
     }
 }
