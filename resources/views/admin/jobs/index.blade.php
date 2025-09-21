@@ -11,9 +11,14 @@
                     <i class="fas fa-briefcase me-1"></i>
                     Job Listings
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createJobModal">
-                    <i class="fas fa-plus"></i> Add Job
-                </button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createJobModal">
+                        <i class="fas fa-plus"></i> Add Job
+                    </button>
+                    <a href="{{ route('admin.reports.print-jobs') }}" class="btn btn-success btn-sm" target="_blank">
+                        <i class="fas fa-print"></i> Print Report
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 @if(session('success'))
