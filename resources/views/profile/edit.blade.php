@@ -123,6 +123,89 @@
                                     </div>
                                 </div>
 
+                                <!-- Additional Academic Information -->
+                                <div class="mt-6">
+                                    <h4 class="text-md font-medium text-gray-900 mb-4">Additional Academic Information</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <!-- Average Professional Grade -->
+                                        <div>
+                                            <label for="average_prof_grade" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Average Professional Grade
+                                            </label>
+                                            <input type="number" step="0.01" name="average_prof_grade" id="average_prof_grade" 
+                                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 
+                                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                                                    hover:border-blue-400 transition-colors duration-200"
+                                                   value="{{ old('average_prof_grade', auth()->user()->average_prof_grade) }}">
+                                            @error('average_prof_grade')
+                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- Average Elective Grade -->
+                                        <div>
+                                            <label for="average_elec_grade" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Average Elective Grade
+                                            </label>
+                                            <input type="number" step="0.01" name="average_elec_grade" id="average_elec_grade" 
+                                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 
+                                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                                                    hover:border-blue-400 transition-colors duration-200"
+                                                   value="{{ old('average_elec_grade', auth()->user()->average_elec_grade) }}">
+                                            @error('average_elec_grade')
+                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- OJT Grade -->
+                                        <div>
+                                            <label for="ojt_grade" class="block text-sm font-medium text-gray-700 mb-2">
+                                                OJT Grade
+                                            </label>
+                                            <input type="number" step="0.01" name="ojt_grade" id="ojt_grade" 
+                                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 
+                                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                                                    hover:border-blue-400 transition-colors duration-200"
+                                                   value="{{ old('ojt_grade', auth()->user()->ojt_grade) }}">
+                                            @error('ojt_grade')
+                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                        <!-- Soft Skills Average -->
+                                        <div>
+                                            <label for="soft_skills_ave" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Soft Skills Average
+                                            </label>
+                                            <input type="number" step="0.01" name="soft_skills_ave" id="soft_skills_ave" 
+                                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 
+                                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                                                    hover:border-blue-400 transition-colors duration-200"
+                                                   value="{{ old('soft_skills_ave', auth()->user()->soft_skills_ave) }}">
+                                            @error('soft_skills_ave')
+                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- Hard Skills Average -->
+                                        <div>
+                                            <label for="hard_skills_ave" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Hard Skills Average
+                                            </label>
+                                            <input type="number" step="0.01" name="hard_skills_ave" id="hard_skills_ave" 
+                                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 
+                                                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                                                    hover:border-blue-400 transition-colors duration-200"
+                                                   value="{{ old('hard_skills_ave', auth()->user()->hard_skills_ave) }}">
+                                            @error('hard_skills_ave')
+                                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="mt-6 space-y-4">
                                     <!-- ACT Member -->
                                     <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
@@ -297,7 +380,177 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
+
+                        <!-- Skills Assessment Card -->
+                        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                            <div class="p-6 sm:p-8">
+                                <h3 class="text-lg font-medium text-gray-900 mb-6">Skills Assessment</h3>
+                                <p class="text-sm text-gray-600 mb-6">Rate your proficiency in the following skills relevant to your degree program. Use the scale: 1 (Beginner) to 5 (Expert).</p>
+                                
+                                <div class="space-y-6">
+                                    @php
+                                        $userDegree = auth()->user()->degree_name;
+                                        $skills = [];
+                                        
+                                        // Define skills based on degree
+                                        if (str_contains(strtoupper($userDegree), 'BSIT') || str_contains(strtoupper($userDegree), 'INFORMATION TECHNOLOGY')) {
+                                            $skills = [
+                                                'java_programming_skills' => 'Java Programming Skills',
+                                                'python_programming_skills' => 'Python Programming Skills',
+                                                'web_development_skills' => 'Web Development Skills',
+                                                'database_management_skills' => 'Database Management Skills',
+                                                'software_engineering_skills' => 'Software Engineering Skills',
+                                                'data_structures_algorithms' => 'Data Structures & Algorithms',
+                                                'programming_logic_skills' => 'Programming Logic Skills',
+                                                'system_design_skills' => 'System Design Skills',
+                                                'networking_skills' => 'Networking Skills',
+                                                'cloud_computing_skills' => 'Cloud Computing Skills',
+                                                'artificial_intelligence_skills' => 'Artificial Intelligence Skills',
+                                                'cybersecurity_skills' => 'Cybersecurity Skills',
+                                                'machine_learning_skills' => 'Machine Learning Skills',
+                                                'statistical_analysis_skills' => 'Statistical Analysis Skills',
+                                                'problem_solving_skills' => 'Problem-Solving Skills'
+                                            ];
+                                        } elseif (str_contains(strtoupper($userDegree), 'BSED') || str_contains(strtoupper($userDegree), 'EDUCATION')) {
+                                            if (str_contains(strtoupper($userDegree), 'ENGLISH')) {
+                                                $skills = [
+                                                    'english_communication_writing_skills' => 'English Communication & Writing Skills',
+                                                    'teaching_skills' => 'Teaching Skills',
+                                                    'classroom_management_skills' => 'Classroom Management Skills',
+                                                    'curriculum_development_skills' => 'Curriculum Development Skills',
+                                                    'educational_technology_skills' => 'Educational Technology Skills',
+                                                    'leadership_decision_making_skills' => 'Leadership & Decision-Making Skills',
+                                                    'early_childhood_education_skills' => 'Early Childhood Education Skills',
+                                                    'statistical_analysis_skills' => 'Statistical Analysis Skills',
+                                                    'problem_solving_skills' => 'Problem-Solving Skills'
+                                                ];
+                                            } else {
+                                                $skills = [
+                                                    'teaching_skills' => 'Teaching Skills',
+                                                    'classroom_management_skills' => 'Classroom Management Skills',
+                                                    'curriculum_development_skills' => 'Curriculum Development Skills',
+                                                    'educational_technology_skills' => 'Educational Technology Skills',
+                                                    'leadership_decision_making_skills' => 'Leadership & Decision-Making Skills',
+                                                    'early_childhood_education_skills' => 'Early Childhood Education Skills',
+                                                    'statistical_analysis_skills' => 'Statistical Analysis Skills',
+                                                    'problem_solving_skills' => 'Problem-Solving Skills'
+                                                ];
+                                            }
+                                        } elseif (str_contains(strtoupper($userDegree), 'BSN') || str_contains(strtoupper($userDegree), 'NURSING')) {
+                                            $skills = [
+                                                'clinical_skills' => 'Clinical Skills',
+                                                'patient_care_skills' => 'Patient Care Skills',
+                                                'health_assessment_skills' => 'Health Assessment Skills',
+                                                'emergency_response_skills' => 'Emergency Response Skills',
+                                                'leadership_decision_making_skills' => 'Leadership & Decision-Making Skills',
+                                                'problem_solving_skills' => 'Problem-Solving Skills',
+                                                'statistical_analysis_skills' => 'Statistical Analysis Skills'
+                                            ];
+                                        } elseif (str_contains(strtoupper($userDegree), 'BSA') || str_contains(strtoupper($userDegree), 'ACCOUNTANCY')) {
+                                            $skills = [
+                                                'auditing_skills' => 'Auditing Skills',
+                                                'financial_accounting_skills' => 'Financial Accounting Skills',
+                                                'taxation_skills' => 'Taxation Skills',
+                                                'budgeting_analysis_skills' => 'Budgeting & Analysis Skills',
+                                                'financial_management_skills' => 'Financial Management Skills',
+                                                'leadership_decision_making_skills' => 'Leadership & Decision-Making Skills',
+                                                'problem_solving_skills' => 'Problem-Solving Skills',
+                                                'statistical_analysis_skills' => 'Statistical Analysis Skills'
+                                            ];
+                                        } elseif (str_contains(strtoupper($userDegree), 'BSBA') || str_contains(strtoupper($userDegree), 'BUSINESS')) {
+                                            $skills = [
+                                                'marketing_skills' => 'Marketing Skills',
+                                                'sales_management_skills' => 'Sales Management Skills',
+                                                'customer_service_skills' => 'Customer Service Skills',
+                                                'event_management_skills' => 'Event Management Skills',
+                                                'food_beverage_management_skills' => 'Food & Beverage Management Skills',
+                                                'risk_management_skills' => 'Risk Management Skills',
+                                                'innovation_business_planning_skills' => 'Innovation & Business Planning Skills',
+                                                'consumer_behavior_analysis' => 'Consumer Behavior Analysis',
+                                                'leadership_decision_making_skills' => 'Leadership & Decision-Making Skills',
+                                                'problem_solving_skills' => 'Problem-Solving Skills',
+                                                'statistical_analysis_skills' => 'Statistical Analysis Skills'
+                                            ];
+                                        } elseif (str_contains(strtoupper($userDegree), 'ECE') || str_contains(strtoupper($userDegree), 'ELECTRONICS')) {
+                                            $skills = [
+                                                'circuit_design_skills' => 'Circuit Design Skills',
+                                                'communication_systems_skills' => 'Communication Systems Skills',
+                                                'problem_solving_skills' => 'Problem-Solving Skills',
+                                                'leadership_decision_making_skills' => 'Leadership & Decision-Making Skills',
+                                                'statistical_analysis_skills' => 'Statistical Analysis Skills'
+                                            ];
+                                        } else {
+                                            // Default skills for other degrees
+                                            $skills = [
+                                                'leadership_decision_making_skills' => 'Leadership & Decision-Making Skills',
+                                                'problem_solving_skills' => 'Problem-Solving Skills',
+                                                'statistical_analysis_skills' => 'Statistical Analysis Skills',
+                                                'customer_service_skills' => 'Customer Service Skills',
+                                                'communication_systems_skills' => 'Communication Skills'
+                                            ];
+                                        }
+                                    @endphp
+
+                                    @if(count($skills) > 0)
+                                        <div class="grid grid-cols-1 gap-6">
+                                            @foreach($skills as $skillKey => $skillName)
+                                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                                                        {{ $skillName }}
+                                                    </label>
+                                                    <div class="flex items-center space-x-4">
+                                                        @for($i = 1; $i <= 5; $i++)
+                                                            <label class="flex items-center cursor-pointer">
+                                                                <input type="radio" 
+                                                                       name="{{ $skillKey }}" 
+                                                                       value="{{ $i }}" 
+                                                                       class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                                                       {{ old($skillKey, auth()->user()->$skillKey) == $i ? 'checked' : '' }}>
+                                                                <span class="ml-2 text-sm text-gray-700">{{ $i }}</span>
+                                                            </label>
+                                                        @endfor
+                                                        <div class="ml-4 text-xs text-gray-500">
+                                                            <span class="font-medium">1</span> = Beginner, 
+                                                            <span class="font-medium">5</span> = Expert
+                                                        </div>
+                                                    </div>
+                                                    @error($skillKey)
+                                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Skills Completion Status -->
+                                        <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" 
+                                                       name="skills_completed" 
+                                                       id="skills_completed" 
+                                                       class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                                       value="1"
+                                                       {{ old('skills_completed', auth()->user()->skills_completed) ? 'checked' : '' }}>
+                                                <label for="skills_completed" class="ml-2 block text-sm font-medium text-blue-800">
+                                                    I have completed my skills assessment
+                                                </label>
+                                            </div>
+                                            <p class="mt-2 text-xs text-blue-600">
+                                                Check this box to confirm that you have accurately rated all your skills. 
+                                                This will include your profile in employment predictions and reports.
+                                            </p>
+                                        </div>
+                                    @else
+                                        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                            <p class="text-sm text-yellow-800">
+                                                No specific skills are defined for your degree program ({{ $userDegree }}). 
+                                                Please contact the administrator to add relevant skills for your program.
+                                            </p>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Account Information Card -->
                         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -464,13 +717,15 @@
             }
         });
 
-        // Form validation for board exam details
+        // Form validation for board exam details and skills
         document.querySelector('form').addEventListener('submit', function(e) {
             const checkbox = document.getElementById('is_board_passer');
             const boardExamName = document.getElementById('board_exam_name');
             const boardExamYear = document.getElementById('board_exam_year');
             const licenseNumber = document.getElementById('license_number');
+            const skillsCompleted = document.getElementById('skills_completed');
             
+            // Board exam validation
             if (checkbox.checked) {
                 // Check if required fields are filled
                 if (!boardExamName.value.trim()) {
@@ -494,6 +749,92 @@
                     return false;
                 }
             }
+
+            // Skills completion validation
+            if (skillsCompleted && skillsCompleted.checked) {
+                const skillInputs = document.querySelectorAll('input[type="radio"][name*="_skills"]');
+                const skillGroups = {};
+                
+                // Group skills by name
+                skillInputs.forEach(input => {
+                    const skillName = input.name;
+                    if (!skillGroups[skillName]) {
+                        skillGroups[skillName] = [];
+                    }
+                    skillGroups[skillName].push(input);
+                });
+                
+                // Check if at least one skill is rated
+                let hasRatedSkills = false;
+                for (const skillName in skillGroups) {
+                    const group = skillGroups[skillName];
+                    if (group.some(input => input.checked)) {
+                        hasRatedSkills = true;
+                        break;
+                    }
+                }
+                
+                if (!hasRatedSkills) {
+                    e.preventDefault();
+                    alert('Please rate at least one skill before marking your skills assessment as complete.');
+                    return false;
+                }
+            }
+        });
+
+        // Auto-calculate soft and hard skills averages
+        function calculateSkillsAverages() {
+            const skillInputs = document.querySelectorAll('input[type="radio"][name*="_skills"]:checked');
+            const softSkills = [];
+            const hardSkills = [];
+            
+            skillInputs.forEach(input => {
+                const skillName = input.name;
+                const value = parseInt(input.value);
+                
+                // Define which skills are soft vs hard (this is a simplified categorization)
+                const softSkillNames = [
+                    'leadership_decision_making_skills',
+                    'problem_solving_skills',
+                    'customer_service_skills',
+                    'communication_systems_skills',
+                    'teaching_skills',
+                    'classroom_management_skills',
+                    'curriculum_development_skills',
+                    'early_childhood_education_skills'
+                ];
+                
+                if (softSkillNames.includes(skillName)) {
+                    softSkills.push(value);
+                } else {
+                    hardSkills.push(value);
+                }
+            });
+            
+            // Calculate averages
+            const softSkillsAve = softSkills.length > 0 ? 
+                (softSkills.reduce((a, b) => a + b, 0) / softSkills.length * 20).toFixed(2) : '';
+            const hardSkillsAve = hardSkills.length > 0 ? 
+                (hardSkills.reduce((a, b) => a + b, 0) / hardSkills.length * 20).toFixed(2) : '';
+            
+            // Update the input fields
+            const softSkillsInput = document.getElementById('soft_skills_ave');
+            const hardSkillsInput = document.getElementById('hard_skills_ave');
+            
+            if (softSkillsInput && softSkillsAve) {
+                softSkillsInput.value = softSkillsAve;
+            }
+            if (hardSkillsInput && hardSkillsAve) {
+                hardSkillsInput.value = hardSkillsAve;
+            }
+        }
+
+        // Add event listeners to skill radio buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillInputs = document.querySelectorAll('input[type="radio"][name*="_skills"]');
+            skillInputs.forEach(input => {
+                input.addEventListener('change', calculateSkillsAverages);
+            });
         });
     </script>
     @endpush
