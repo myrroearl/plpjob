@@ -118,7 +118,7 @@
                             <th>Student Number</th>
                             <th>Age</th>
                             <th>Degree</th>
-                            <th>CGPA</th>
+                           
                             <th>Avg Prof Grade</th>
                             <th>Avg Elec Grade</th>
                             <th>OJT Grade</th>
@@ -137,7 +137,7 @@
                                 <td>{{ $row['Student Number'] }}</td>
                                 <td>{{ $row['Age'] }}</td>
                                 <td>{{ $row['Degree'] }}</td>
-                                <td>{{ $row['CGPA'] }}</td>
+                                
                                 <td>{{ $row['Average Prof Grade'] }}</td>
                                 <td>{{ $row['Average Elec Grade'] }}</td>
                                 <td>{{ $row['OJT Grade'] }}</td>
@@ -173,7 +173,7 @@
                                             data-student-number="{{ $row['Student Number'] }}"
                                             data-age="{{ $row['Age'] }}"
                                             data-degree="{{ $row['Degree'] }}"
-                                            data-cgpa="{{ $row['CGPA'] }}"
+                                           
                                             data-prof-grade="{{ $row['Average Prof Grade'] }}"
                                             data-elec-grade="{{ $row['Average Elec Grade'] }}"
                                             data-ojt-grade="{{ $row['OJT Grade'] }}"
@@ -293,9 +293,7 @@
                             </div>
                             <div class="col-md-6">
                                 <h6 class="text-primary mb-3">Academic Performance</h6>
-                                <div class="mb-2">
-                                    <strong>CGPA:</strong> <span id="modal-cgpa"></span>
-                                </div>
+                               
                                 <div class="mb-2">
                                     <strong>Average Prof Grade:</strong> <span id="modal-prof-grade"></span>
                                 </div>
@@ -431,7 +429,7 @@
             background-color: rgba(220, 53, 69, 0.1);
         }
     </style>
-    
+
     <script>
         // Chart data from PHP
         const chartData = {
@@ -658,7 +656,7 @@
                     document.getElementById('modal-student-number').textContent = data.studentNumber;
                     document.getElementById('modal-age').textContent = data.age;
                     document.getElementById('modal-degree').textContent = data.degree;
-                    document.getElementById('modal-cgpa').textContent = data.cgpa;
+                  
                     document.getElementById('modal-prof-grade').textContent = data.profGrade;
                     document.getElementById('modal-elec-grade').textContent = data.elecGrade;
                     document.getElementById('modal-ojt-grade').textContent = data.ojtGrade;
