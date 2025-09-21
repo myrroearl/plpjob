@@ -187,7 +187,7 @@ if 'Employability' not in df.columns:
     sys.exit(1)
 
 # Clean the target variable as well - remove rows where target is NaN
-y = df['Employability'].map({'Employable': 1, 'Not Employable': 0})
+y = df['Employability'].map({'Employable': 1, 'Less Employable': 0})
 print(f"Original target shape: {y.shape}")
 y = y.dropna()
 print(f"Target shape after removing NaN values: {y.shape}")
@@ -640,35 +640,39 @@ try:
         public_url3 = f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET_NAME}/{filename3}"
         print(f"PUBLIC_URL:{filename3}:{public_url3}")
 
-        # Update Supabase with Linear Regression results if it's better
-        lr_update_data = {
-            'prediction_accuracy': (1 - lr_results['metrics']['mape']/100) * 100,
-            'rmse': lr_results['metrics']['rmse'],
-            'mae': lr_results['metrics']['mae'],
-            'r2': lr_results['metrics']['r2'],
-            'predicted_rate': lr_results['predictions'][-1],
-            'model_type': 'Linear Regression'
-        }
-        
-        update_supabase_record(lr_update_data)
-
-        # Update Supabase database with final results
+        # Update Supabase database with final results (single update)
         try:
+            # Use the better model's metrics
+            if better_model == 'Linear Regression':
+                final_metrics = lr_results['metrics']
+                model_type = 'Linear Regression'
+                predicted_rate = lr_results['predictions'][-1]
+            else:
+                final_metrics = {
+                    'rmse': rmse,
+                    'mae': mae,
+                    'r2': r2,
+                    'mape': mape
+                }
+                model_type = 'ARIMA'
+                predicted_rate = yearly_comparison['Predicted'].iloc[-1]
+            
             update_data = {
                 'total_alumni': int(len(df_clean)),
                 'prediction_accuracy': float(yearly_comparison['Accuracy'].mean()),
                 'employment_rate_forecast_line_image': filename1,
-                'rmse': float(rmse),
-                'mae': float(mae),
-                'r2': float(r2),
+                'employment_rate_comparison_image': filename2,
+                'predicted_employability_by_degree_image': '',
+                'distribution_of_predicted_employment_rates_image': '',
+                'rmse': float(final_metrics['rmse']),
+                'mae': float(final_metrics['mae']),
+                'r2': float(final_metrics['r2']),
                 'aic': float(aic),
                 'confidence_interval': float(conf_int.iloc[-1, 1] - conf_int.iloc[-1, 0]),
                 'actual_rate': float(yearly_comparison['Actual'].iloc[-1]),
-                'predicted_rate': float(yearly_comparison['Predicted'].iloc[-1]),
-                'margin_of_error': float(abs(yearly_comparison['Actual'].iloc[-1] - yearly_comparison['Predicted'].iloc[-1])),
-                'employment_rate_comparison_image': filename2,
-                'predicted_employability_by_degree_image': '',
-                'distribution_of_predicted_employment_rates_image': ''
+                'predicted_rate': float(predicted_rate),
+                'margin_of_error': float(abs(yearly_comparison['Actual'].iloc[-1] - predicted_rate)),
+                'model_type': model_type
             }
             
             update_supabase_record(update_data)
