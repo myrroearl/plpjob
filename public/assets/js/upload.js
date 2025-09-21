@@ -98,9 +98,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (result.status === 'success') {
                 // Show success message using SweetAlert2
+                let message = result.message;
+                
+                // Show dataset upload results if applicable
+                if (result.data && result.data.datasetUpload) {
+                    const datasetResult = result.data.datasetUpload;
+                    if (datasetResult.status === 'success') {
+                        message += `<br><br><strong>Dataset Upload Results:</strong><br>
+                                   • Records inserted: ${datasetResult.insertedCount}<br>
+                                   • Errors: ${datasetResult.errorCount}<br>
+                                   • Total rows processed: ${datasetResult.totalRows}`;
+                    } else {
+                        message += `<br><br><strong>Dataset Upload Warning:</strong> ${datasetResult.message}`;
+                    }
+                }
+                
                 Swal.fire({
                     title: 'Success!',
-                    text: result.message + ' Page will refresh in 3 seconds to show updated data...',
+                    html: message + '<br><br>Page will refresh in 3 seconds to show updated data...',
                     icon: 'success',
                     confirmButtonText: 'OK',
                     timer: 3000,
