@@ -49,7 +49,7 @@
             
             <a class="nav-item {{ request()->routeIs('admin.model-upload.index') ? 'active' : '' }}" href="{{ route('admin.model-upload.index') }}">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <span>Upload Model</span>
+                <span>Model Configuration</span>
             </a>
             <a class="nav-item {{ request()->routeIs('admin.forecasting.index') ? 'active' : '' }}" href="{{ route('admin.forecasting.index') }}">
                 
