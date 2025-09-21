@@ -11,12 +11,15 @@
                     <i class="fas fa-comments me-1"></i>
                     Feedback Listings
                 </div>
-                <div>
+                <div class="btn-group">
                     <select class="form-select form-select-sm" id="sortSelect">
                         <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest First</option>
                         <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
                         <option value="status" {{ request('sort') == 'status' ? 'selected' : '' }}>By Status</option>
                     </select>
+                    <a href="{{ route('admin.reports.print-feedbacks') }}" class="btn btn-success btn-sm" target="_blank">
+                        <i class="fas fa-print"></i> Print Report
+                    </a>
                 </div>
             </div>
             <div class="card-body">
