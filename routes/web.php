@@ -91,6 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/model-upload', [ModelUploadController::class, 'index'])->name('model-upload.index');
         Route::post('/model-upload', [ModelUploadController::class, 'store'])->name('model-upload.store');
         Route::post('/model-upload/add-data', [ModelUploadController::class, 'addData'])->name('model-upload.add-data');
+        Route::get('/model-upload/dataset', [ModelUploadController::class, 'viewDataset'])->name('model-upload.view-dataset');
 
         // Companies Routes
         Route::get('/companies', [AdminCompanyController::class, 'index'])->name('companies.index');
@@ -115,12 +116,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/print', [ReportController::class, 'printReport'])->name('reports.print');
+        Route::get('/reports/print-companies', [ReportController::class, 'printCompaniesReport'])->name('reports.print-companies');
+        Route::get('/reports/print-jobs', [ReportController::class, 'printJobsReport'])->name('reports.print-jobs');
+        Route::get('/reports/print-users', [ReportController::class, 'printUsersReport'])->name('reports.print-users');
+        Route::get('/reports/print-feedbacks', [ReportController::class, 'printFeedbacksReport'])->name('reports.print-feedbacks');
 
         // Inside the middleware('auth:admin') group
         Route::get('/feedbacks', [FeedbackManagementController::class, 'index'])->name('feedbacks.index');
         Route::delete('/feedbacks/{feedback}', [FeedbackManagementController::class, 'destroy'])->name('feedbacks.destroy');
         Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
         Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
+        Route::post('/users/upload-csv', [UserManagementController::class, 'uploadCsv'])->name('users.upload-csv');
         Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
