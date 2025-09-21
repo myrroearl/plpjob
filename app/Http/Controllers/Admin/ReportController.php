@@ -88,28 +88,36 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $detailedPredictionsFile = public_path('assets/predictions/detailed_predictions.txt');
-        $csvPredictionsFile = public_path('assets/predictions/student_employability_predictions.csv');
+        // Fetch data directly from users table instead of CSV/TXT files
+        $users = \App\Models\User::where('skills_completed', true)
+            ->where('role', 'user')
+            ->get();
 
-        $detailedPredictions = file_exists($detailedPredictionsFile) ? file_get_contents($detailedPredictionsFile) : '';
         $csvData = [];
-
-        if (file_exists($csvPredictionsFile)) {
-            if (($handle = fopen($csvPredictionsFile, 'r')) !== FALSE) {
-                $header = fgetcsv($handle);
-                while (($data = fgetcsv($handle)) !== FALSE) {
-                    $csvData[] = array_combine($header, $data);
-                }
-                fclose($handle);
-            }
-        }
-
         $highProbabilityCount = 0;
         $mediumProbabilityCount = 0;
         $lowProbabilityCount = 0;
 
-        foreach ($csvData as $row) {
-            $probability = $row['Employability_Probability'];
+        foreach ($users as $user) {
+            // Calculate employability probability (simplified logic)
+            $probability = $this->calculateEmployabilityProbability($user);
+            
+            $csvData[] = [
+                'Student Number' => $user->student_id ?? $user->id,
+                'Gender' => 'Male', // Default since users table doesn't have gender
+                'Age' => $user->age ?? 0,
+                'Degree' => $user->degree_name ?? 'Not Specified',
+                'CGPA' => $user->average_grade ?? 0,
+                'Average Prof Grade' => $user->average_prof_grade ?? 0,
+                'Average Elec Grade' => $user->average_elec_grade ?? 0,
+                'OJT Grade' => $user->ojt_grade ?? 0,
+                'Soft Skills Ave' => $user->soft_skills_ave ?? 0,
+                'Hard Skills Ave' => $user->hard_skills_ave ?? 0,
+                'Year Graduated' => $user->year_graduated ?? date('Y'),
+                'Predicted_Employability' => $probability >= 50 ? 'Employable' : 'Less Employable',
+                'Employability_Probability' => $probability,
+                'Predicted_Employment_Rate' => $probability
+            ];
 
             if ($probability >= 75) {
                 $highProbabilityCount++;
@@ -123,12 +131,39 @@ class ReportController extends Controller
         return view('admin.reports.index', compact('csvData', 'highProbabilityCount', 'mediumProbabilityCount', 'lowProbabilityCount'));
     }
 
+    private function calculateEmployabilityProbability($user)
+    {
+        // Simple calculation based on academic performance and skills
+        $cgpa = $user->average_grade ?? 0;
+        $profGrade = $user->average_prof_grade ?? 0;
+        $elecGrade = $user->average_elec_grade ?? 0;
+        $ojtGrade = $user->ojt_grade ?? 0;
+        $softSkills = $user->soft_skills_ave ?? 0;
+        $hardSkills = $user->hard_skills_ave ?? 0;
+
+        // Weighted average calculation
+        $probability = (
+            ($cgpa * 0.25) +
+            ($profGrade * 0.20) +
+            ($elecGrade * 0.15) +
+            ($ojtGrade * 0.15) +
+            ($softSkills * 0.15) +
+            ($hardSkills * 0.10)
+        );
+
+        return min(100, max(0, $probability));
+    }
+
     public function printReport(Request $request)
     {
         $yearFilter = $request->query('year');
         $degreeFilter = $request->query('degree');
 
-        $csvFile = public_path('assets/predictions/student_employability_predictions.csv');
+        // Fetch data directly from users table
+        $users = \App\Models\User::where('skills_completed', true)
+            ->where('role', 'user')
+            ->get();
+
         $pdf = new PDF();
         $pdf->AliasNbPages();
         $pdf->AddPage('L');
@@ -148,59 +183,48 @@ class ReportController extends Controller
         // Add fancy table header
         $pdf->FancyTable($headers, $widths);
 
-        if (($handle = fopen($csvFile, "r")) !== FALSE) {
-            $header = fgetcsv($handle);
-            $rowCount = 0;
+        $rowCount = 0;
+        foreach ($users as $user) {
+            $rowYear = $user->year_graduated ?? date('Y');
+            $rowDegree = $user->degree_name ?? 'Not Specified';
 
-            while (($data = fgetcsv($handle)) !== FALSE) {
-                $rowYear = $data[array_search('Year Graduated', $header)];
-                $rowDegree = $data[array_search('Degree', $header)];
-
-
-                $employ = $data[array_search('Predicted_Employability', $header)];
-                if ($employ == "Not Employable") {
-                    $employ = "Employable";
-                } else {
-                    $employ = "Not Employable";
-                }
-
-                if (($yearFilter && $rowYear != $yearFilter) || 
-                    ($degreeFilter && $rowDegree != $degreeFilter)) {
-                    continue;
-                }
-
-                $row = [
-                    $data[array_search('Student Number', $header)],
-                    $data[array_search('Gender', $header)],
-                    $data[array_search('Age', $header)],
-                    $data[array_search('Degree', $header)],
-                    $data[array_search('CGPA', $header)],
-                    $data[array_search('Average Prof Grade', $header)],
-                    $data[array_search('Average Elec Grade', $header)],
-                    $data[array_search('OJT Grade', $header)],
-                    $data[array_search('Soft Skills Ave', $header)],
-                    $data[array_search('Hard Skills Ave', $header)],
-                    $data[array_search('Year Graduated', $header)],
-                    $employ,
-                    
-                ];
-
-                $isEmployable = $employ == "Employable";
-               
-
-                for($i = 0; $i < count($row); $i++) {
-                    if ($i == 11) {
-                        $pdf->SetFillColor($isEmployable ? 144 : 255, $isEmployable ? 238 : 182, $isEmployable ? 144 : 193);
-                    } else {
-                        $pdf->SetFillColor($rowCount % 2 == 0 ? 244 : 255);
-                    }
-                    
-                    $pdf->Cell($widths[$i], 6, $row[$i], 1, 0, 'C', true);
-                }
-                $pdf->Ln();
-                $rowCount++;
+            // Apply filters
+            if (($yearFilter && $rowYear != $yearFilter) || 
+                ($degreeFilter && $rowDegree != $degreeFilter)) {
+                continue;
             }
-            fclose($handle);
+
+            $probability = $this->calculateEmployabilityProbability($user);
+            $employ = $probability >= 50 ? 'Employable' : 'Less Employable';
+
+            $row = [
+                $user->student_id ?? $user->id,
+                'Male', // Default since users table doesn't have gender
+                $user->age ?? 0,
+                $user->degree_name ?? 'Not Specified',
+                $user->average_grade ?? 0,
+                $user->average_prof_grade ?? 0,
+                $user->average_elec_grade ?? 0,
+                $user->ojt_grade ?? 0,
+                $user->soft_skills_ave ?? 0,
+                $user->hard_skills_ave ?? 0,
+                $user->year_graduated ?? date('Y'),
+                $employ,
+            ];
+
+            $isEmployable = $employ == "Employable";
+
+            for($i = 0; $i < count($row); $i++) {
+                if ($i == 11) {
+                    $pdf->SetFillColor($isEmployable ? 144 : 255, $isEmployable ? 238 : 182, $isEmployable ? 144 : 193);
+                } else {
+                    $pdf->SetFillColor($rowCount % 2 == 0 ? 244 : 255);
+                }
+                
+                $pdf->Cell($widths[$i], 6, $row[$i], 1, 0, 'C', true);
+            }
+            $pdf->Ln();
+            $rowCount++;
         }
 
         $pdf->Ln(10);
@@ -212,5 +236,198 @@ class ReportController extends Controller
         return response()->streamDownload(function() use ($pdf) {
             $pdf->Output();
         }, 'Student_Employability_Report.pdf');
+    }
+
+    public function printCompaniesReport()
+    {
+        $companies = \App\Models\Company::all();
+        
+        $pdf = new PDF();
+        $pdf->AliasNbPages();
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', '', 10);
+
+        // Table headers
+        $headers = ['Company Name', 'Industry', 'Website', 'Description'];
+        $widths = [60, 50, 60, 100];
+
+        // Add fancy table header
+        $pdf->FancyTable($headers, $widths);
+
+        $rowCount = 0;
+        foreach ($companies as $company) {
+            $row = [
+                $company->name,
+                $company->industry ?? 'N/A',
+                $company->website ?? 'N/A',
+                substr($company->description ?? 'N/A', 0, 50) . (strlen($company->description ?? '') > 50 ? '...' : '')
+            ];
+
+            $pdf->SetFillColor($rowCount % 2 == 0 ? 244 : 255);
+            for($i = 0; $i < count($row); $i++) {
+                $pdf->Cell($widths[$i], 6, $row[$i], 1, 0, 'C', true);
+            }
+            $pdf->Ln();
+            $rowCount++;
+        }
+
+        $pdf->Ln(10);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(0, 10, 'Summary', 0, 1, 'L');
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(0, 6, "Total Companies: $rowCount", 0, 1, 'L');
+
+        return response()->streamDownload(function() use ($pdf) {
+            $pdf->Output();
+        }, 'Companies_Report.pdf');
+    }
+
+    public function printJobsReport()
+    {
+        $jobs = \App\Models\Job::with('company')->get();
+        
+        $pdf = new PDF();
+        $pdf->AliasNbPages();
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', '', 9);
+
+        // Table headers
+        $headers = ['Job Title', 'Company', 'Location', 'Job Type', 'Industry', 'Salary Range', 'Expires'];
+        $widths = [45, 40, 35, 35, 35, 45, 35];
+
+        // Add fancy table header
+        $pdf->FancyTable($headers, $widths);
+
+        $rowCount = 0;
+        foreach ($jobs as $job) {
+            $salaryRange = $job->salary_min && $job->salary_max ? 
+                $job->currency . ' ' . $job->salary_min . ' - ' . $job->salary_max : 'N/A';
+
+            $row = [
+                substr($job->title, 0, 30) . (strlen($job->title) > 30 ? '...' : ''),
+                substr($job->company->name, 0, 25) . (strlen($job->company->name) > 25 ? '...' : ''),
+                substr($job->location, 0, 20) . (strlen($job->location) > 20 ? '...' : ''),
+                $job->job_type,
+                substr($job->industry, 0, 20) . (strlen($job->industry) > 20 ? '...' : ''),
+                $salaryRange,
+                $job->expires_at ? $job->expires_at->format('M d, Y') : 'N/A'
+            ];
+
+            $pdf->SetFillColor($rowCount % 2 == 0 ? 244 : 255);
+            for($i = 0; $i < count($row); $i++) {
+                $pdf->Cell($widths[$i], 6, $row[$i], 1, 0, 'C', true);
+            }
+            $pdf->Ln();
+            $rowCount++;
+        }
+
+        $pdf->Ln(10);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(0, 10, 'Summary', 0, 1, 'L');
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(0, 6, "Total Jobs: $rowCount", 0, 1, 'L');
+
+        return response()->streamDownload(function() use ($pdf) {
+            $pdf->Output();
+        }, 'Jobs_Report.pdf');
+    }
+
+    public function printUsersReport()
+    {
+        $users = \App\Models\User::where('role', 'user')->get();
+        
+        $pdf = new PDF();
+        $pdf->AliasNbPages();
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', '', 9);
+
+        // Table headers
+        $headers = ['Student ID', 'Full Name', 'Email', 'Degree', 'Age', 'Skills Completed', 'Board Passer'];
+        $widths = [35, 70, 60, 35, 20, 30, 25];
+
+        // Add fancy table header
+        $pdf->FancyTable($headers, $widths);
+
+        $rowCount = 0;
+        foreach ($users as $user) {
+            $fullName = $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name;
+            
+            $row = [
+                $user->student_id ?? $user->id,
+                substr($fullName, 0, 35) . (strlen($fullName) > 35 ? '...' : ''),
+                substr($user->email, 0, 35) . (strlen($user->email) > 35 ? '...' : ''),
+                substr($user->degree_name, 0, 20) . (strlen($user->degree_name) > 20 ? '...' : ''),
+                $user->age ?? 'N/A',
+                $user->skills_completed ? 'Yes' : 'No',
+                $user->is_board_passer ? 'Yes' : 'No'
+            ];
+
+            $pdf->SetFillColor($rowCount % 2 == 0 ? 244 : 255);
+            for($i = 0; $i < count($row); $i++) {
+                $pdf->Cell($widths[$i], 6, $row[$i], 1, 0, 'C', true);
+            }
+            $pdf->Ln();
+            $rowCount++;
+        }
+
+        $pdf->Ln(10);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(0, 10, 'Summary', 0, 1, 'L');
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(0, 6, "Total Users: $rowCount", 0, 1, 'L');
+
+        return response()->streamDownload(function() use ($pdf) {
+            $pdf->Output();
+        }, 'Users_Report.pdf');
+    }
+
+    public function printFeedbacksReport()
+    {
+        $feedbacks = \App\Models\Feedback::with('user')->get();
+        
+        $pdf = new PDF();
+        $pdf->AliasNbPages();
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial', '', 8);
+
+        // Table headers
+        $headers = ['Student Name', 'Employment Status', 'Company', 'Position', 'Duration', 'Feedback', 'Date'];
+        $widths = [40, 35, 40, 35, 35, 50, 35];
+
+        // Add fancy table header
+        $pdf->FancyTable($headers, $widths);
+
+        $rowCount = 0;
+        foreach ($feedbacks as $feedback) {
+            $studentName = $feedback->user->first_name . ' ' . $feedback->user->last_name;
+            $employmentStatus = ucfirst($feedback->employment_status);
+            
+            $row = [
+                substr($studentName, 0, 25) . (strlen($studentName) > 25 ? '...' : ''),
+                $employmentStatus,
+                substr($feedback->company_name ?? 'N/A', 0, 20) . (strlen($feedback->company_name ?? '') > 20 ? '...' : ''),
+                substr($feedback->position ?? 'N/A', 0, 18) . (strlen($feedback->position ?? '') > 18 ? '...' : ''),
+                $feedback->employment_duration ?? 'N/A',
+                substr($feedback->improvements ?? 'N/A', 0, 30) . (strlen($feedback->improvements ?? '') > 30 ? '...' : ''),
+                $feedback->created_at->format('M d, Y')
+            ];
+
+            $pdf->SetFillColor($rowCount % 2 == 0 ? 244 : 255);
+            for($i = 0; $i < count($row); $i++) {
+                $pdf->Cell($widths[$i], 6, $row[$i], 1, 0, 'C', true);
+            }
+            $pdf->Ln();
+            $rowCount++;
+        }
+
+        $pdf->Ln(10);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(0, 10, 'Summary', 0, 1, 'L');
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(0, 6, "Total Feedbacks: $rowCount", 0, 1, 'L');
+
+        return response()->streamDownload(function() use ($pdf) {
+            $pdf->Output();
+        }, 'Feedbacks_Report.pdf');
     }
 } 
