@@ -39,7 +39,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('home') }}"><img src="{{ asset('assets/img/plplogo.png') }}" alt="PLP Logo" class="h-8 w-auto mr-2"></a>
+                        <a href="{{ route('home') }}"><img src="{{ asset('assets/img/plp-logo.png') }}" alt="PLP Logo" class="h-8 w-auto mr-2"></a>
                         {{-- <a href="{{ route('home') }}"><img src="https://lh6.googleusercontent.com/0rCDC0TkoXRF7BlwjdEVHq9A69sIkx-n-NmGUdjVQwFWgV3nL05MDvsWImV61EGzmU2zyyVM0Rs_ZznBMf5rLKU=w16383" alt="PLP Logo" class="h-8 w-auto mr-2"></a> --}}
                         <a href="{{ route('home') }}" class="text-2xl font-bold text-[#0e2b6b]">Job Placement Office</a>
                     </div>
