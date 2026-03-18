@@ -10,11 +10,15 @@ use Illuminate\Support\Facades\Storage;
 require_once app_path('Libraries/fpdf186/fpdf.php');
 
 class PDF extends \FPDF {
+    public $collegeName = 'All Colleges';
+    public $departmentFilter = '';
+    public $degreeFilter = '';
+    public $yearFilter = '';
+
     // Page header
     function Header() {
         // Add PLP logo on the left
         $this->Image(public_path('assets/img/plp-logo.png'), 10, 6, 25);
-        //$this->Image(public_path('assets/img/ccs-logo.jpg'), 260, 6, 25);
         
         // Set font for header text
         $this->SetFont('Arial', 'B', 14);
@@ -26,8 +30,8 @@ class PDF extends \FPDF {
         $this->SetFont('Arial', '', 12);
         $this->Cell(0, 6, 'Alkalde Jose St. Kapasigan, Pasig City', 0, 1, 'C');
         
-        // College name
-        $this->Cell(0, 6, 'College of Computer Studies', 0, 1, 'C');
+        // College name (dynamic based on filter)
+        $this->Cell(0, 6, $this->collegeName, 0, 1, 'C');
         
         // Add some space
         $this->Ln(5);
@@ -41,11 +45,14 @@ class PDF extends \FPDF {
         $this->Cell(0, 6, 'Generated on: ' . date('F d, Y h:i A'), 0, 1, 'R');
 
         // Filter information if provided
-        if (isset($_GET['year']) && $_GET['year'] != '') {
-            $this->Cell(0, 6, 'Year Filter: ' . $_GET['year'], 0, 1, 'L');
+        if ($this->departmentFilter != '') {
+            $this->Cell(0, 6, 'Department Filter: ' . $this->collegeName, 0, 1, 'L');
         }
-        if (isset($_GET['degree']) && $_GET['degree'] != '') {
-            $this->Cell(0, 6, 'Degree Filter: ' . $_GET['degree'], 0, 1, 'L');
+        if ($this->degreeFilter != '') {
+            $this->Cell(0, 6, 'Degree Filter: ' . $this->degreeFilter, 0, 1, 'L');
+        }
+        if ($this->yearFilter != '') {
+            $this->Cell(0, 6, 'Year Filter: ' . $this->yearFilter, 0, 1, 'L');
         }
         
         // Add a line separator
@@ -104,7 +111,7 @@ class ReportController extends Controller
             
             $csvData[] = [
                 'Student Number' => $user->student_id ?? $user->id,
-                'Gender' => 'Male', // Default since users table doesn't have gender
+                'Gender' => 'Male',
                 'Age' => $user->age ?? 0,
                 'Degree' => $user->degree_name ?? 'Not Specified',
                 'CGPA' => $user->average_grade ?? 0,
@@ -133,31 +140,93 @@ class ReportController extends Controller
 
     private function calculateEmployabilityProbability($user)
     {
-        // Simple calculation based on academic performance and skills
-        $cgpa = $user->average_grade ?? 0;
-        $profGrade = $user->average_prof_grade ?? 0;
-        $elecGrade = $user->average_elec_grade ?? 0;
-        $ojtGrade = $user->ojt_grade ?? 0;
-        $softSkills = $user->soft_skills_ave ?? 0;
-        $hardSkills = $user->hard_skills_ave ?? 0;
+        $score = 0;
 
-        // Weighted average calculation
-        $probability = (
-            ($cgpa * 0.25) +
-            ($profGrade * 0.20) +
-            ($elecGrade * 0.15) +
-            ($ojtGrade * 0.15) +
-            ($softSkills * 0.15) +
-            ($hardSkills * 0.10)
-        );
+        // Academic performance (30% weight) - matches StudentForecastController
+        if ($user->average_prof_grade) {
+            $score += ($user->average_prof_grade / 100) * 15;
+        }
+        if ($user->average_elec_grade) {
+            $score += ($user->average_elec_grade / 100) * 10;
+        }
+        if ($user->ojt_grade) {
+            $score += ($user->ojt_grade / 100) * 5;
+        }
 
-        return min(100, max(0, $probability));
+        // Skills assessment (40% weight)
+        if ($user->soft_skills_ave) {
+            $score += ($user->soft_skills_ave / 100) * 20;
+        }
+        if ($user->hard_skills_ave) {
+            $score += ($user->hard_skills_ave / 100) * 20;
+        }
+
+        // Additional factors (30% weight)
+        if ($user->is_board_passer) {
+            $score += 15;
+        }
+        if ($user->leadership) {
+            $score += 10;
+        }
+        if ($user->act_member) {
+            $score += 5;
+        }
+
+        return min(100, max(0, round($score)));
+    }
+
+    // Department to College Name mapping
+    private $departmentCollegeMapping = [
+        'CCS' => 'College of Computer Studies',
+        'CBA' => 'College of Business Administration',
+        'COED' => 'College of Education',
+        'CAS' => 'College of Arts and Sciences',
+        'CON' => 'College of Nursing',
+        'COE' => 'College of Engineering',
+        'CIHM' => 'College of International Hospitality and Management',
+    ];
+
+    // Department to Degrees mapping
+    private $departmentDegreeMapping = [
+        'CCS' => ['BSCS', 'BSIT'],
+        'CBA' => ['BSA', 'BSBA', 'BSBA-Marketing', 'BSBA-Entrepreneurship'],
+        'COED' => ['BEEd', 'BSEd', 'BSEd-English', 'BSEd-Filipino'],
+        'CAS' => ['AB PolSci', 'AB MassComm', 'BS Psychology'],
+        'CON' => ['BSN'],
+        'COE' => ['BSECE'],
+        'CIHM' => ['BSHM'],
+    ];
+
+    // Check if degree belongs to a department
+    private function degreeMatchesDepartment($degree, $department)
+    {
+        if (!$department || !isset($this->departmentDegreeMapping[$department])) {
+            return true;
+        }
+        
+        $degrees = $this->departmentDegreeMapping[$department];
+        $upperDegree = strtoupper($degree);
+        
+        foreach ($degrees as $d) {
+            if (strpos($upperDegree, strtoupper($d)) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    // Get college name from department code
+    private function getCollegeName($departmentCode)
+    {
+        return $this->departmentCollegeMapping[$departmentCode] ?? 'All Colleges';
     }
 
     public function printReport(Request $request)
     {
-        $yearFilter = $request->query('year');
+        $departmentFilter = $request->query('department');
         $degreeFilter = $request->query('degree');
+        $yearFilter = $request->query('year');
 
         // Fetch data directly from users table
         $users = \App\Models\User::where('skills_completed', true)
@@ -165,6 +234,19 @@ class ReportController extends Controller
             ->get();
 
         $pdf = new PDF();
+        
+        // Set college name based on department filter
+        if ($departmentFilter && isset($this->departmentCollegeMapping[$departmentFilter])) {
+            $pdf->collegeName = $this->departmentCollegeMapping[$departmentFilter];
+        } else {
+            $pdf->collegeName = 'All Colleges';
+        }
+        
+        // Set filter values for display in header
+        $pdf->departmentFilter = $departmentFilter ?? '';
+        $pdf->degreeFilter = $degreeFilter ?? '';
+        $pdf->yearFilter = $yearFilter ?? '';
+        
         $pdf->AliasNbPages();
         $pdf->AddPage('L');
         $pdf->SetFont('Arial', '', 10);
@@ -188,9 +270,18 @@ class ReportController extends Controller
             $rowYear = $user->year_graduated ?? date('Y');
             $rowDegree = $user->degree_name ?? 'Not Specified';
 
-            // Apply filters
-            if (($yearFilter && $rowYear != $yearFilter) || 
-                ($degreeFilter && $rowDegree != $degreeFilter)) {
+            // Apply department filter
+            if ($departmentFilter && !$this->degreeMatchesDepartment($rowDegree, $departmentFilter)) {
+                continue;
+            }
+
+            // Apply degree filter
+            if ($degreeFilter && $rowDegree != $degreeFilter) {
+                continue;
+            }
+
+            // Apply year filter
+            if ($yearFilter && $rowYear != $yearFilter) {
                 continue;
             }
 
