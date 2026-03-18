@@ -92,12 +92,16 @@
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label class="form-label">Filter by Year Graduated</label>
-                    <select class="form-select" id="yearFilter">
-                        <option value="">All Years</option>
-                        @foreach (array_unique(array_column($csvData, 'Year Graduated')) as $year)
-                            <option value="{{ $year }}">{{ $year }}</option>
-                        @endforeach
+                    <label class="form-label">Filter by Department</label>
+                    <select class="form-select" id="departmentFilter">
+                        <option value="">All Departments</option>
+                        <option value="CCS">College of Computer Studies</option>
+                        <option value="CBA">College of Business Administration</option>
+                        <option value="COED">College of Education</option>
+                        <option value="CAS">College of Arts and Sciences</option>
+                        <option value="CON">College of Nursing</option>
+                        <option value="COE">College of Engineering</option>
+                        <option value="CIHM">College of International Hospitality and Management</option>
                     </select>
                 </div>
                 <div class="col-md-4">
@@ -106,6 +110,15 @@
                         <option value="">All Degrees</option>
                         @foreach (array_unique(array_column($csvData, 'Degree')) as $degree)
                             <option value="{{ $degree }}">{{ $degree }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Filter by Year Graduated</label>
+                    <select class="form-select" id="yearFilter">
+                        <option value="">All Years</option>
+                        @foreach (array_unique(array_column($csvData, 'Year Graduated')) as $year)
+                            <option value="{{ $year }}">{{ $year }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -629,12 +642,14 @@
         };
 
         function printFilteredReport() {
-            const yearFilter = document.getElementById('yearFilter').value;
+            const departmentFilter = document.getElementById('departmentFilter').value;
             const degreeFilter = document.getElementById('degreeFilter').value;
+            const yearFilter = document.getElementById('yearFilter').value;
             
             let url = '{{ route("admin.reports.print") }}?';
-            if (yearFilter) url += 'year=' + encodeURIComponent(yearFilter) + '&';
-            if (degreeFilter) url += 'degree=' + encodeURIComponent(degreeFilter);
+            if (departmentFilter) url += 'department=' + encodeURIComponent(departmentFilter) + '&';
+            if (degreeFilter) url += 'degree=' + encodeURIComponent(degreeFilter) + '&';
+            if (yearFilter) url += 'year=' + encodeURIComponent(yearFilter);
             
             window.open(url, '_blank');
         }
