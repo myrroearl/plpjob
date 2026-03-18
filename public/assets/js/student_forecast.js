@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('resultsTable')) {
         $('#resultsTable').DataTable({
             responsive: true,
-            order: [[12, 'desc']] // Sort by employability probability
+            order: [[10, 'desc']] // Sort by employability probability (column 10)
         });
     }
     
@@ -90,23 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Filter functionality
-    const yearFilter = document.getElementById('yearFilter');
-    const degreeFilter = document.getElementById('degreeFilter');
-    
-    if (yearFilter && degreeFilter && $.fn.dataTable) {
-        const table = $('#resultsTable').DataTable();
-        
-        yearFilter.addEventListener('change', function() {
-            const yearValue = this.value;
-            table.column(10).search(yearValue).draw(); // 10 is the Year Graduated column index
-        });
-        
-        degreeFilter.addEventListener('change', function() {
-            const degreeValue = this.value;
-            table.column(3).search(degreeValue).draw(); // 3 is the Degree column index
-        });
-    }
 });
 
 function updateFileName(fileName) {
@@ -219,33 +202,100 @@ const styles = `
 // Append styles to head
 document.head.insertAdjacentHTML('beforeend', styles);
 
+// Department to Degrees mapping
+const departmentDegreeMapping = {
+    'CCS': ['BSCS', 'BSIT'],
+    'CBA': ['BSA', 'BSBA'],
+    'CTE': ['BEEd', 'BSEd'],
+    'CAS': ['AB PolSci', 'AB MassComm', 'BS Psychology'],
+    'CCJE': ['BS Criminology'],
+    'CON': ['BS Nursing'],
+    'COE': ['BS Electronics Engineering']
+};
+
+// Function to get department from degree
+function getDepartmentFromDegree(degree) {
+    const upperDegree = degree.toUpperCase();
+    for (const [dept, degrees] of Object.entries(departmentDegreeMapping)) {
+        for (const d of degrees) {
+            if (upperDegree.includes(d.toUpperCase())) {
+                return dept;
+            }
+        }
+    }
+    return null;
+}
+
+// Function to check if degree belongs to department
+function degreeMatchesDepartment(degree, department) {
+    if (!department) return true;
+    const degrees = departmentDegreeMapping[department] || [];
+    const upperDegree = degree.toUpperCase();
+    return degrees.some(d => upperDegree.includes(d.toUpperCase()));
+}
+
+// Store all original degree options
+let allDegreeOptions = [];
+
 // Initialize DataTable with filtering
 $(document).ready(function() {
     // Get existing DataTable instance if it exists
     let table = $('#resultsTable').DataTable();
     
+    // Store all degree options on page load
+    $('#degreeFilter option').each(function() {
+        allDegreeOptions.push({
+            value: $(this).val(),
+            text: $(this).text()
+        });
+    });
+    
     // Custom filtering function
     $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-        const selectedYear = $('#yearFilter').val();
+        const selectedDepartment = $('#departmentFilter').val();
         const selectedDegree = $('#degreeFilter').val();
+        const selectedYear = $('#yearFilter').val();
         
-        const rowYear = data[10]; // Year Graduated column index
-        const rowDegree = data[3]; // Degree column index
+        const rowDegree = data[2]; // Degree column index (column 2)
+        const rowYear = data[8]; // Year Graduated column index (column 8)
 
-        // If no filters are selected, show all rows
-        if (!selectedYear && !selectedDegree) return true;
-
-        // Check year filter
-        const yearMatch = !selectedYear || rowYear === selectedYear;
+        // Check department filter
+        const departmentMatch = !selectedDepartment || degreeMatchesDepartment(rowDegree, selectedDepartment);
         
         // Check degree filter
         const degreeMatch = !selectedDegree || rowDegree === selectedDegree;
+        
+        // Check year filter
+        const yearMatch = !selectedYear || rowYear === selectedYear;
 
-        return yearMatch && degreeMatch;
+        return departmentMatch && degreeMatch && yearMatch;
     });
 
-    // Event listeners for filter changes
-    $('#yearFilter, #degreeFilter').on('change', function() {
+    // Department filter change - update degree dropdown and filter table
+    $('#departmentFilter').on('change', function() {
+        const selectedDepartment = $(this).val();
+        const degreeSelect = $('#degreeFilter');
+        
+        // Clear current degree selection
+        degreeSelect.val('');
+        
+        // Rebuild degree options based on department
+        degreeSelect.empty();
+        degreeSelect.append('<option value="">All Degrees</option>');
+        
+        allDegreeOptions.forEach(function(option) {
+            if (option.value === '') return; // Skip "All Degrees" option
+            
+            if (!selectedDepartment || degreeMatchesDepartment(option.value, selectedDepartment)) {
+                degreeSelect.append(`<option value="${option.value}">${option.text}</option>`);
+            }
+        });
+        
+        table.draw();
+    });
+
+    // Event listeners for other filter changes
+    $('#degreeFilter, #yearFilter').on('change', function() {
         table.draw();
     });
 }); 
